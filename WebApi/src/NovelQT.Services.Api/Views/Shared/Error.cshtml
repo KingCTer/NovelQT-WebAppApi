@@ -1,0 +1,54 @@
+﻿@model ErrorViewModel
+
+@{
+    var error = Model?.Error?.Error;
+    var errorDescription = Model?.Error?.ErrorDescription;
+    var request_id = Model?.Error?.RequestId;
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container">
+		<!--begin::About card-->
+		<div class="card">
+			<!--begin::Body-->
+			<div class="card-body p-lg-17">
+                <div class="error-page">
+                    <div class="lead">
+                        <h1>Error</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="alert alert-danger">
+                                Sorry, there was an error
+
+                                @if (error != null)
+                                {
+                                    <strong>
+                                        <em>
+                                            : @error
+                                        </em>
+                                    </strong>
+
+                                    if (errorDescription != null)
+                                    {
+                                        <div>@errorDescription</div>
+                                    }
+                                }
+                            </div>
+
+                            @if (request_id != null)
+                            {
+                                <div class="request-id">Request Id: @request_id</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::About card-->
+	</div>
+	<!--end::Container-->
+</div>

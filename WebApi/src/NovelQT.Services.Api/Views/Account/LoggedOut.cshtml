@@ -1,0 +1,49 @@
+﻿@model LoggedOutViewModel
+
+@{ 
+    // set this so the layout rendering sees an anonymous user
+    ViewData["signed-out"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container">
+		<!--begin::About card-->
+		<div class="card">
+			<!--begin::Body-->
+			<div class="card-body p-lg-17">
+				<div class="logged-out-page">
+                <h1>
+                    Logout
+                    <small>You are now logged out</small>
+                </h1>
+
+                @if (Model.PostLogoutRedirectUri != null)
+                {
+                    <div>
+                        Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
+                        <span>@Model.ClientName</span> application.
+                    </div>
+                }
+
+                @if (Model.SignOutIframeUrl != null)
+                {
+                    <iframe width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>
+                }
+            </div>
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::About card-->
+	</div>
+	<!--end::Container-->
+</div>
+
+@section PageCustomJavascript
+{
+    @if (Model.AutomaticRedirectAfterSignOut)
+    {
+        <script src="~/identity-server/js/signout-redirect"></script>
+    }
+}

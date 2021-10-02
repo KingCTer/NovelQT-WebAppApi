@@ -1,0 +1,44 @@
+﻿@model LogoutViewModel
+@{
+    ViewData["Title"] = "Logout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container">
+		<!--begin::About card-->
+		<div class="card">
+			<!--begin::Body-->
+			<div class="card-body p-lg-17">
+				<!--begin::Content-->
+				<div class="d-flex flex-column flex-column-fluid text-center p-10 py-lg-20">
+					<!--begin::Logo-->
+					<a href="../../demo1/dist/index.html" class="mb-10 pt-lg-20">
+						<img alt="Logo" src="assets/media/logos/logo-2-dark.svg" class="h-50px mb-5" />
+					</a>
+					<!--end::Logo-->
+					<!--begin::Wrapper-->
+					<div class="pt-lg-10">
+						<!--begin::Logo-->
+						<h1 class="fw-bolder fs-4x text-gray-800 mb-10">Đăng Xuất</h1>
+						<!--end::Logo-->
+						<!--begin::Message-->
+						<div class="fw-bold fs-3 text-muted mb-15">Would you like to logout of IdentityServer?</div>
+						<!--end::Message-->
+						<form asp-action="Logout">
+							<input name="logoutId" type="hidden" value="@Model.LogoutId"  />
+							<div class="text-center">
+								<button class="btn btn-primary btn-lg fw-bolder">Yes</button>
+							</div>
+						</form>
+					</div>
+					<!--end::Wrapper-->
+				</div>
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::About card-->
+	</div>
+	<!--end::Container-->
+</div>

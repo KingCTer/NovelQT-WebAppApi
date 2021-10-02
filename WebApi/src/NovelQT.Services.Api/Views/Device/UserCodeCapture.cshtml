@@ -1,0 +1,42 @@
+﻿@model string
+@{
+    ViewData["Title"] = "UserCodeCapture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container">
+		<!--begin::About card-->
+		<div class="card">
+			<!--begin::Body-->
+			<div class="card-body p-lg-17">
+                <div class="page-device-code">
+                    <div class="lead">
+                        <h1>User Code</h1>
+                        <p>Please enter the code displayed on your device.</p>
+                    </div>
+
+                    <partial name="_ValidationSummary" />
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form asp-action="UserCodeCapture">
+                                <div class="form-group">
+                                    <label for="userCode">User Code:</label>
+                                    <input class="form-control" for="userCode" name="userCode" autofocus />
+                                </div>
+
+                                <button class="btn btn-primary" name="button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::About card-->
+	</div>
+	<!--end::Container-->
+</div>
+
