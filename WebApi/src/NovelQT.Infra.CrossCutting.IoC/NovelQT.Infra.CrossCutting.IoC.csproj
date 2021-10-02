@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NovelQT.Application\NovelQT.Application.csproj" />
+    <ProjectReference Include="..\NovelQT.Domain\NovelQT.Domain.csproj" />
+    <ProjectReference Include="..\NovelQT.Infra.CrossCutting.Identity\NovelQT.Infra.CrossCutting.Identity.csproj" />
+    <ProjectReference Include="..\NovelQT.Infra.Data\NovelQT.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
