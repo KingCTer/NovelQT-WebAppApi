@@ -21,5 +21,6 @@ namespace NovelQT.Infra.CrossCutting.Identity.Mappings
                 .HasMaxLength(50)
                 .IsUnicode();
         }
+        
     }
 }
