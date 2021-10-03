@@ -13,7 +13,7 @@ namespace NovelQT.Infra.CrossCutting.Identity.IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new MyIdentityResources.Permissions(),
+                //new MyIdentityResources.Permissions(),
                 //new MyIdentityResources.Roles(),
                 
             };
@@ -22,14 +22,14 @@ namespace NovelQT.Infra.CrossCutting.Identity.IdentityServer
             new ApiResource[]
             {
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName, "Public Api Resource"),
-                new ApiResource(MyIdentityServerConstants.PrivateApi.ScopeName, "Private Api Resource"),
+                //new ApiResource(MyIdentityServerConstants.PrivateApi.ScopeName, "Private Api Resource"),
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName, "Public Api Scope"),
-                new ApiScope(MyIdentityServerConstants.PrivateApi.ScopeName, "Private Api Scope"),
+                //new ApiScope(MyIdentityServerConstants.PrivateApi.ScopeName, "Private Api Scope"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -65,46 +65,46 @@ namespace NovelQT.Infra.CrossCutting.Identity.IdentityServer
                     ClientName = "Admin Client",
                     ClientSecrets = { new Secret("AdminSecret".Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                    AllowOfflineAccess = true,
+                    //AllowOfflineAccess = true,
 
-                    RequireConsent = false,
-                    RequirePkce = true,
+                    //RequireConsent = false,
+                    //RequirePkce = true,
 
-                    RedirectUris = { "https://localhost:5001/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:5001/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
-
-                    AllowedScopes = {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        IdentityServerConstants.LocalApi.ScopeName,
-                    }
-                },
-                new Client
-                {
-                    ClientId = "web",
-                    ClientSecrets = { new Secret("WebSecret".Sha256()) },
-
-                    AllowedGrantTypes = GrantTypes.Code,
-
-                    RequireConsent = false,
-                    RequirePkce = true,
-                    AllowOfflineAccess = true,
-
-                    RedirectUris = { "https://localhost:5002/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+                    //RedirectUris = { "https://localhost:5001/signin-oidc" },
+                    //FrontChannelLogoutUri = "https://localhost:5001/signout-oidc",
+                    //PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
 
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                       // IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.LocalApi.ScopeName,
                     }
                 },
+                //new Client
+                //{
+                //    ClientId = "web",
+                //    ClientSecrets = { new Secret("WebSecret".Sha256()) },
+
+                //    AllowedGrantTypes = GrantTypes.Code,
+
+                //    RequireConsent = false,
+                //    RequirePkce = true,
+                //    AllowOfflineAccess = true,
+
+                //    RedirectUris = { "https://localhost:5002/signin-oidc" },
+                //    FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
+                //    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+
+                //    AllowedScopes = {
+                //        IdentityServerConstants.StandardScopes.OpenId,
+                //        IdentityServerConstants.StandardScopes.Profile,
+                //        IdentityServerConstants.StandardScopes.OfflineAccess,
+                //        IdentityServerConstants.LocalApi.ScopeName,
+                //    }
+                //},
                 new Client
                 {
                     ClientId = "android",
@@ -112,6 +112,8 @@ namespace NovelQT.Infra.CrossCutting.Identity.IdentityServer
                     //ClientSecrets = { new Secret("WebSecret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
+
+                    AccessTokenLifetime = 7200,
 
                     RequireConsent = false,
                     RequirePkce = false,
