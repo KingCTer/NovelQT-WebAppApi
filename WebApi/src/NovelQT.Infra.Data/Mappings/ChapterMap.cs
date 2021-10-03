@@ -21,7 +21,8 @@ namespace NovelQT.Infra.Data.Mappings
                 .IsUnicode(false);
 
             builder.Property(x => x.Content)
-                .HasColumnType("text");
+                .HasColumnType("ntext")
+                .IsUnicode();
 
 
             builder.HasQueryFilter(p => !p.IsDeleted);

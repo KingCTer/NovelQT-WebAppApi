@@ -28,6 +28,10 @@ namespace NovelQT.Infra.Data.Context
         {
             // Config Fluent API
             modelBuilder.ApplyConfiguration(new CustomerMap());
+            modelBuilder.ApplyConfiguration(new BookMap());
+            modelBuilder.ApplyConfiguration(new AuthorMap());
+            modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new ChapterMap());
 
             base.OnModelCreating(modelBuilder);
         }
