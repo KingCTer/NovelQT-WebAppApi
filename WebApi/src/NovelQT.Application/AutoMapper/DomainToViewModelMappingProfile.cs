@@ -9,6 +9,10 @@ namespace NovelQT.Application.AutoMapper
         public DomainToViewModelMappingProfile()
         {
             CreateMap<Customer, CustomerViewModel>();
+            CreateMap<Author, AuthorViewModel>();
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<Book, BookViewModel>();
+            CreateMap<Chapter, ChapterViewModel>();
         }
     }
 }

@@ -18,6 +18,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using NovelQT.Domain.Commands.Author;
+using NovelQT.Domain.Commands.Category;
+using NovelQT.Domain.Commands.Book;
 
 namespace NovelQT.Infra.CrossCutting.IoC
 {
@@ -37,6 +40,7 @@ namespace NovelQT.Infra.CrossCutting.IoC
 
             // Application
             services.AddScoped<ICustomerAppService, CustomerAppService>();
+            services.AddScoped<IBookAppService, BookAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -49,13 +53,25 @@ namespace NovelQT.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, bool>, CustomerCommandHandler>();
             services.AddScoped<IRequestHandler<RemoveCustomerCommand, bool>, CustomerCommandHandler>();
 
+            services.AddScoped<IRequestHandler<RegisterNewAuthorCommand, bool>, AuthorCommandHandler>();
+
+            services.AddScoped<IRequestHandler<RegisterNewCategoryCommand, bool>, CategoryCommandHandler>();
+
+            services.AddScoped<IRequestHandler<RegisterNewBookCommand, bool>, BookCommandHandler>();
+
+            services.AddScoped<IRequestHandler<RegisterNewChapterCommand, bool>, ChapterCommandHandler>();
+
             // Domain - 3rd parties
             //services.AddScoped<IHttpService, HttpService>();
             //services.AddScoped<IMailService, MailService>();
 
             // Infra - Data
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IChapterRepository, ChapterRepository>();
 
             // Infra - Data EventSourcing
             services.AddScoped<IEventStoreRepository, EventStoreSqlRepository>();

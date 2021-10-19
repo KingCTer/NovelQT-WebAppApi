@@ -13,6 +13,12 @@ namespace NovelQT.Domain.Models
         {
         }
 
+        public Category(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public string Name { get; set; }
 
         public ICollection<Book> Books { get; set; }
