@@ -8,6 +8,7 @@ using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using NovelQT.Domain.Commands.Book;
 
 namespace NovelQT.Domain.CommandHandlers
 {

@@ -1,5 +1,9 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NovelQT.Application.Elasticsearch;
+using NovelQT.Application.Elasticsearch.Hosting;
+using NovelQT.Infra.Data.Context;
 using NovelQT.Services.Api.ProgramExtensions;
 using Serilog;
 using System.Reflection;
@@ -18,6 +22,11 @@ builder.UseSerilogConfiguration();
 
 // ----- Controllers -----
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddOptions();
+
+builder.Services.Configure<ElasticsearchOptions>(builder.Configuration.GetSection("Application:Elasticsearch"));
+builder.Services.Configure<IndexerOptions>(builder.Configuration.GetSection("Application:Indexer"));
 
 // ----- Database -----
 builder.AddDatabaseConfiguration();
@@ -47,6 +56,14 @@ builder.AddHealthCheckConfiguration();
 
 // ----- DI -----
 builder.RegisterServices();
+
+var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+               .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                o => o.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+               .Options;
+var dbContextFactory = new ApplicationDbContextFactory(dbContextOptions);
+builder.RegisterContextFactory(dbContextFactory);
+
 
 #endregion
 // End: Add services to the container.

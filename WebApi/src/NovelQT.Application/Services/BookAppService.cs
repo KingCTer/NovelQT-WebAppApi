@@ -8,6 +8,7 @@ using NovelQT.Domain.Commands.Category;
 using NovelQT.Domain.Core.Bus;
 using NovelQT.Domain.Interfaces;
 using NovelQT.Domain.Models;
+using NovelQT.Domain.Models.Enum;
 using NovelQT.Domain.Specifications;
 using NovelQT.Infra.Data.Repository.EventSourcing;
 using System;
@@ -105,11 +106,14 @@ namespace NovelQT.Application.Services
                     Bus.SendCommand(registerCategoryCommand);
                 }
                 book.CategoryId = _mapper.Map<CategoryViewModel>(_categoryRepository.GetByName(bookCategory)).Id;
-
+                
+                
 
                 var bookInDatabase = _mapper.Map<BookViewModel>(_bookRepository.GetByKey(book.Key));
                 if (bookInDatabase == null)
                 {
+                    book.IndexStatus = IndexStatusEnum.ScheduledIndex;
+
                     var registerBookCommand = _mapper.Map<RegisterNewBookCommand>(book);
                     Bus.SendCommand(registerBookCommand);
                     bookInDatabase = _mapper.Map<BookViewModel>(_bookRepository.GetByKey(book.Key));
@@ -144,6 +148,8 @@ namespace NovelQT.Application.Services
                         string htmlChapter = WebUtility.HtmlDecode(response.Content.ReadAsStringAsync().Result);
                         string chapterContentTemp = Regex.Match(htmlChapter, @"(?=box-chap box-chap).*?(?<=<\/div>)", RegexOptions.Singleline).Value.ToString();
                         chapterViewModel.Content = Regex.Match(chapterContentTemp, @"(?<=>).*?(?=<\/div>)", RegexOptions.Singleline).Value.ToString();
+
+                        chapterViewModel.IndexStatus = IndexStatusEnum.ScheduledIndex;
 
                         var registerChapterCommand = _mapper.Map<RegisterNewChapterCommand>(chapterViewModel);
                         Bus.SendCommand(registerChapterCommand);

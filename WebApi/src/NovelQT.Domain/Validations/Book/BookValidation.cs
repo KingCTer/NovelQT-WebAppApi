@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using NovelQT.Domain.Commands.Author;
 using NovelQT.Domain.Commands.Book;
 using System;
 

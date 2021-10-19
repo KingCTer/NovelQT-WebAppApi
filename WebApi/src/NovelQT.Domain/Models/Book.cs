@@ -1,4 +1,5 @@
 ﻿using NovelQT.Domain.Core.Models;
+using NovelQT.Domain.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace NovelQT.Domain.Models
         {
         }
 
-        public Book(Guid id, string name, string key, string cover, string status, int view, int like, Guid authorId, Guid categoryId)
+        public Book(Guid id, string name, string key, string cover, string status, int view, int like, Guid authorId, Guid categoryId, IndexStatusEnum indexStatus)
         {
             Id = id;
             Name = name;
@@ -24,6 +25,7 @@ namespace NovelQT.Domain.Models
             Like = like;
             AuthorId = authorId;
             CategoryId = categoryId;
+            IndexStatus = indexStatus;
         }
 
         public string Name { get; set; }
@@ -32,6 +34,8 @@ namespace NovelQT.Domain.Models
         public string Status { get; set; }
         public int View { get; set; }
         public int Like { get; set; }
+
+        public IndexStatusEnum IndexStatus { get; set; }
 
         public Guid AuthorId { get; set; }
         public Author Author { get; set; }

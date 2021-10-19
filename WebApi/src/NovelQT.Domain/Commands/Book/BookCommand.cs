@@ -1,4 +1,5 @@
 ﻿using NovelQT.Domain.Core.Commands;
+using NovelQT.Domain.Models.Enum;
 using System;
 
 namespace NovelQT.Domain.Commands.Book
@@ -13,6 +14,8 @@ namespace NovelQT.Domain.Commands.Book
         public string Status { get; protected set; }
         public int View { get; protected set; }
         public int Like { get; protected set; }
+
+        public IndexStatusEnum IndexStatus { get; set; }
 
         public Guid AuthorId { get; protected set; }
 

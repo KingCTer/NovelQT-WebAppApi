@@ -39,7 +39,7 @@ namespace NovelQT.Domain.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var chapter = new Chapter(Guid.NewGuid(), message.Order, message.Name, message.Url, message.Content, message.BookId);
+            var chapter = new Chapter(Guid.NewGuid(), message.Order, message.Name, message.Url, message.Content, message.BookId, message.IndexStatus);
 
             if (_chapterRepository.GetByBookIdAndOrder(chapter.BookId, chapter.Order) != null)
             {

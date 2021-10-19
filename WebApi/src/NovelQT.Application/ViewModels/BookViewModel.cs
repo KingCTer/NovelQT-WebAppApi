@@ -1,4 +1,5 @@
 ﻿using NovelQT.Domain.Models;
+using NovelQT.Domain.Models.Enum;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +21,7 @@ namespace NovelQT.Application.ViewModels
             CategoryId = categoryId;
         }
 
-        public BookViewModel(Guid id, string name, string key, string cover, string status, int view, int like, Guid authorId, Guid categoryId)
+        public BookViewModel(Guid id, string name, string key, string cover, string status, int view, int like, Guid authorId, Guid categoryId, IndexStatusEnum indexStatus)
         {
             Id = id;
             Name = name;
@@ -31,6 +32,7 @@ namespace NovelQT.Application.ViewModels
             Like = like;
             AuthorId = authorId;
             CategoryId = categoryId;
+            IndexStatus = indexStatus;
         }
 
         public BookViewModel()
@@ -49,6 +51,8 @@ namespace NovelQT.Application.ViewModels
         public string Status { get; set; }
         public int View { get; set; }
         public int Like { get; set; }
+
+        public IndexStatusEnum IndexStatus { get; set; }
 
         [ForeignKey("AuthorId")]
         public Guid AuthorId { get; set; }

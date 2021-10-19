@@ -21,6 +21,10 @@ using Microsoft.Extensions.DependencyInjection;
 using NovelQT.Domain.Commands.Author;
 using NovelQT.Domain.Commands.Category;
 using NovelQT.Domain.Commands.Book;
+using NovelQT.Application.Elasticsearch;
+using NovelQT.Application.Elasticsearch.Services;
+using NovelQT.Application.Elasticsearch.Hosting;
+using NovelQT.Infra.Data.Context;
 
 namespace NovelQT.Infra.CrossCutting.IoC
 {
@@ -31,6 +35,12 @@ namespace NovelQT.Infra.CrossCutting.IoC
             // ASP.NET HttpContext dependency
             services.AddHttpContextAccessor();
             // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Elasticsearch
+            services.AddSingleton<ElasticsearchClient>();
+            services.AddSingleton<ElasticsearchIndexService>();
+            services.AddHostedService<ElasticsearchInitializerHostedService>();
+            services.AddHostedService<DocumentIndexerHostedService>();
 
             // Domain Bus (Mediator)
             services.AddScoped<IMediatorHandler, InMemoryBus>();
@@ -58,6 +68,7 @@ namespace NovelQT.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<RegisterNewCategoryCommand, bool>, CategoryCommandHandler>();
 
             services.AddScoped<IRequestHandler<RegisterNewBookCommand, bool>, BookCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateBookCommand, bool>, BookCommandHandler>();
 
             services.AddScoped<IRequestHandler<RegisterNewChapterCommand, bool>, ChapterCommandHandler>();
 
@@ -73,6 +84,7 @@ namespace NovelQT.Infra.CrossCutting.IoC
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
 
+
             // Infra - Data EventSourcing
             services.AddScoped<IEventStoreRepository, EventStoreSqlRepository>();
             services.AddScoped<IEventStore, SqlEventStore>();
@@ -84,6 +96,13 @@ namespace NovelQT.Infra.CrossCutting.IoC
             // Infra - Identity
             services.AddScoped<IUser, AspNetUser>();
             //services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            
+        }
+
+        public static void RegisterContextFactory(IServiceCollection services, ApplicationDbContextFactory dbContextFactory)
+        {
+            services.AddSingleton(dbContextFactory);
         }
     }
 }

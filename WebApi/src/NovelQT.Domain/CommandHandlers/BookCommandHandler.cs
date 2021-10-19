@@ -11,8 +11,8 @@ using NovelQT.Domain.Commands.Book;
 namespace NovelQT.Domain.CommandHandlers
 {
     public class BookCommandHandler : CommandHandler,
-        IRequestHandler<RegisterNewBookCommand, bool>
-        //IRequestHandler<UpdateCustomerCommand, bool>,
+        IRequestHandler<RegisterNewBookCommand, bool>,
+        IRequestHandler<UpdateBookCommand, bool>
         //IRequestHandler<RemoveCustomerCommand, bool>
     {
         private readonly IBookRepository _bookRepository;
@@ -46,7 +46,9 @@ namespace NovelQT.Domain.CommandHandlers
                 message.View,
                 message.Like,
                 message.AuthorId,
-                message.CategoryId);
+                message.CategoryId,
+                message.IndexStatus
+                );
 
             if (_bookRepository.GetByKey(book.Key) != null)
             {
@@ -64,35 +66,47 @@ namespace NovelQT.Domain.CommandHandlers
             return Task.FromResult(true);
         }
 
-        //public Task<bool> Handle(UpdateCustomerCommand message, CancellationToken cancellationToken)
-        //{
-        //    if (!message.IsValid())
-        //    {
-        //        NotifyValidationErrors(message);
-        //        return Task.FromResult(false);
-        //    }
+        public Task<bool> Handle(UpdateBookCommand message, CancellationToken cancellationToken)
+        {
+            if (!message.IsValid())
+            {
+                NotifyValidationErrors(message);
+                return Task.FromResult(false);
+            }
 
-        //    var customer = new Customer(message.Id, message.Name, message.Email, message.BirthDate);
-        //    var existingCustomer = _customerRepository.GetByEmail(customer.Email);
+            var book = new Book(
+                message.Id,
+                message.Name,
+                message.Key,
+                message.Cover,
+                message.Status,
+                message.View,
+                message.Like,
+                message.AuthorId,
+                message.CategoryId,
+                message.IndexStatus
+                );
 
-        //    if (existingCustomer != null && existingCustomer.Id != customer.Id)
-        //    {
-        //        if (!existingCustomer.Equals(customer))
-        //        {
-        //            Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
-        //            return Task.FromResult(false);
-        //        }
-        //    }
+            var existingBook = _bookRepository.GetById(book.Id);
 
-        //    _customerRepository.Update(customer);
+            if (existingBook != null && existingBook.Id != book.Id)
+            {
+                if (!existingBook.Equals(book))
+                {
+                    Bus.RaiseEvent(new DomainNotification(message.MessageType, "The book has already been taken."));
+                    return Task.FromResult(false);
+                }
+            }
 
-        //    if (Commit())
-        //    {
-        //        Bus.RaiseEvent(new CustomerUpdatedEvent(customer.Id, customer.Name, customer.Email, customer.BirthDate));
-        //    }
+            _bookRepository.Update(book);
 
-        //    return Task.FromResult(true);
-        //}
+            if (Commit())
+            {
+                //Bus.RaiseEvent(new CustomerUpdatedEvent(customer.Id, customer.Name, customer.Email, customer.BirthDate));
+            }
+
+            return Task.FromResult(true);
+        }
 
         //public Task<bool> Handle(RemoveCustomerCommand message, CancellationToken cancellationToken)
         //{
