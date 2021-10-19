@@ -11,7 +11,6 @@ namespace NovelQT.Services.Api.Controllers
     public class BookController : MobileApiController
     {
         private readonly IBookAppService _bookAppService;
-        private object customerAppService;
 
         public BookController(
             IBookAppService bookAppService,

@@ -292,26 +292,26 @@ namespace NovelQT.Application.Elasticsearch
                             .Fragmenter(HighlighterFragmenter.Span)
                             .PreTags("<strong>")
                             .PostTags("</strong>")
-                            .FragmentSize(5)
-                            .NoMatchSize(5)
+                            .FragmentSize(150)
+                            .NoMatchSize(150)
                             .NumberOfFragments(5)
                             .Field(x => x.Name),
                         fields => fields
                             .Fragmenter(HighlighterFragmenter.Span)
                             .PreTags("<strong>")
                             .PostTags("</strong>")
-                            .FragmentSize(5)
-                            .NoMatchSize(5)
+                            .FragmentSize(150)
+                            .NoMatchSize(150)
                             .NumberOfFragments(5)
                             .Field(x => x.Author))
                     )
                 // Now kick off the query:
                 .Query(q => q.MultiMatch(mm => mm
                     .Query(query)
-                    .Type(TextQueryType.BoolPrefix)
+                    .Type(TextQueryType.BestFields)
                     .Fields(f => f
                         .Field(d => d.Name)
-                        .Field(d => d.Attachment.Content)))), cancellationToken);
+                        .Field(d => d.Author)))), cancellationToken);
         }
 
         public Task<ISearchResponse<ElasticsearchChapter>> SearchChapterAsync(string query, CancellationToken cancellationToken)
@@ -326,9 +326,9 @@ namespace NovelQT.Application.Elasticsearch
                             .Fragmenter(HighlighterFragmenter.Span)
                             .PreTags("<strong>")
                             .PostTags("</strong>")
-                            .FragmentSize(5)
-                            .NoMatchSize(5)
-                            .NumberOfFragments(5)
+                            .FragmentSize(150)
+                            .NoMatchSize(150)
+                            .NumberOfFragments(1)
                             .Field(x => x.Name),
                         fields => fields
                             .Fragmenter(HighlighterFragmenter.Span)
@@ -336,16 +336,16 @@ namespace NovelQT.Application.Elasticsearch
                             .PostTags("</strong>")
                             .FragmentSize(150)
                             .NoMatchSize(150)
-                            .NumberOfFragments(5)
+                            .NumberOfFragments(1)
                             .Field(x => x.Content))
                     )
                 // Now kick off the query:
                 .Query(q => q.MultiMatch(mm => mm
                     .Query(query)
-                    .Type(TextQueryType.BoolPrefix)
+                    .Type(TextQueryType.BestFields)
                     .Fields(f => f
-                        .Field(d => d.Name)
-                        .Field(d => d.Attachment.Content)))), cancellationToken);
+                        .Field(d => d.Content)
+                        .Field(d => d.Name)))), cancellationToken);
         }
     }
 }
