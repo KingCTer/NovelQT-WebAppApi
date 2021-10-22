@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 16:52, 21/09/2021
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/fa_solid_book_user_24dp" android:state_checked="true"/>
+    <item android:drawable="@drawable/fa_regular_book_user_24dp" android:state_checked="false"/>
+</selector>

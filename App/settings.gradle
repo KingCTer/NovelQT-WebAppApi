@@ -1,10 +1,7 @@
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-         // Warning: this repository is going to shut down soon
-    }
-}
+/*
+ * Copyright (c) 2021 ctOS-Network. All rights reserved.
+ * Created by KingCTer on 12:03, 22/10/2021
+ */
+
 rootProject.name = "QTReader"
 include ':app'

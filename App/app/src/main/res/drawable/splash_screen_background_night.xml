@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 11:51, 21/09/2021
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/md_black_1000"/>
+    <item>
+        <bitmap android:gravity="center"
+            android:src="@drawable/splash_screen_icon"/>
+    </item>
+</layer-list>

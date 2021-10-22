@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 10:21, 19/09/2021
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_bookcase"
+        android:enabled="true"
+        android:icon="@drawable/navigation_bookcase_icon"
+        android:title="@string/navigation_bookcase_title" />
+
+    <item
+        android:id="@+id/navigation_library"
+        android:enabled="true"
+        android:icon="@drawable/navigation_library_icon"
+        android:title="@string/navigation_library_title" />
+
+    <item
+        android:id="@+id/navigation_discover"
+        android:enabled="true"
+        android:icon="@drawable/navigation_discover_icon"
+        android:title="@string/navigation_discover_title" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:enabled="true"
+        android:icon="@drawable/navigation_account_icon"
+        android:title="@string/navigation_account_title" />
+
+</menu>

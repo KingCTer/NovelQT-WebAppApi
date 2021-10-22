@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 ctOS-Network. All rights reserved.
+ * Created by KingCTer on 12:03, 22/10/2021
+ */
+
 package com.ctosnetwork.qtreader
 
 import org.junit.Test
