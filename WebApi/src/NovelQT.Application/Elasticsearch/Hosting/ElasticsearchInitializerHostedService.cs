@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Nest;
 using NovelQT.Application.Elasticsearch;
 
 namespace NovelQT.Application.Elasticsearch.Hosting
@@ -27,11 +28,11 @@ namespace NovelQT.Application.Elasticsearch.Hosting
                 logger.LogDebug($"Waiting for at least 1 Node and at least 1 Active Shard, with a Timeout of {healthTimeout.TotalSeconds} seconds.");
             }
 
-            await elasticsearchClient.WaitForClusterAsync(healthTimeout, cancellationToken);
+            ClusterHealthResponse healthResponse = await elasticsearchClient.WaitForClusterAsync(healthTimeout, cancellationToken);
+            if (healthResponse.ApiCall.Success == false) return;
 
             // Prepare Elasticsearch Database:
             var indexExistsResponse = await elasticsearchClient.ExistsBookAsync(cancellationToken);
-
             if (!indexExistsResponse.Exists)
             {
                 await elasticsearchClient.CreateBookIndexAsync(cancellationToken);

@@ -1,4 +1,5 @@
-﻿using NovelQT.Application.ViewModels;
+﻿using NovelQT.Application.Responses;
+using NovelQT.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace NovelQT.Application.Interfaces
         public void Crawl(string url);
         public BookViewModel GetById(Guid id);
         public IEnumerable<BookViewModel> GetAll();
-        public IEnumerable<BookViewModel> GetAll(int skip, int take);
+        public RepositoryResponses<BookViewModel> GetAll(int skip, int take);
     }
 }

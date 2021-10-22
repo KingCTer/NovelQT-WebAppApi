@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NovelQT.Application.Query;
 using NovelQT.Domain.Core.Bus;
 using NovelQT.Domain.Core.Notifications;
 
@@ -31,13 +32,14 @@ namespace NovelQT.Services.Api.Controllers.Base
             return (!_notifications.HasNotifications());
         }
 
-        protected new IActionResult Response(object result = null)
+        protected new IActionResult Response(object result = null, int totalRecords = 0)
         {
             if (IsValidOperation())
             {
                 return Ok(new
                 {
                     success = true,
+                    totalRecords,
                     data = result
                 });
             }
@@ -46,6 +48,29 @@ namespace NovelQT.Services.Api.Controllers.Base
             {
                 success = false,
                 errors = _notifications.GetNotifications().Select(n => n.Value)
+            });
+        }
+
+        protected IActionResult PagedResponse(object result = null, int totalRecords = -1, PaginationFilter filter = null)
+        {
+            if (IsValidOperation())
+            {
+                return Ok(new
+                {
+                    success = true,
+                    pageNumber = filter.page_number,
+                    pageSize = filter.page_size,
+                    totalPages = Convert.ToInt32(Math.Ceiling(((double)totalRecords / (double)filter.page_size))),
+                    totalRecords,
+                    data = result,
+                    message = ""
+                });
+            }
+
+            return BadRequest(new
+            {
+                success = false,
+                message = _notifications.GetNotifications().Select(n => n.Value)
             });
         }
 

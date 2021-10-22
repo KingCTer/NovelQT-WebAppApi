@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using NovelQT.Application.Interfaces;
+using NovelQT.Application.Responses;
 using NovelQT.Application.ViewModels;
 using NovelQT.Domain.Commands.Author;
 using NovelQT.Domain.Commands.Book;
@@ -174,10 +175,14 @@ namespace NovelQT.Application.Services
             return _bookRepository.GetAll().ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
         }
 
-        public IEnumerable<BookViewModel> GetAll(int skip, int take)
+        public RepositoryResponses<BookViewModel> GetAll(int skip, int take)
         {
-            return _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take))
-                .ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
+            var books = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take));
+            var bookViewModels = books.ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
+            
+            return new RepositoryResponses<BookViewModel>(bookViewModels, this.GetAll().Count());
+            //return _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take))
+            //    .ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
         }
 
         public void Dispose()

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Nest;
 using NovelQT.Application.Elasticsearch.Services;
 using NovelQT.Application.ViewModels;
 using NovelQT.Domain.Commands.Book;
@@ -24,6 +25,8 @@ namespace NovelQT.Application.Elasticsearch.Hosting
     {
         private readonly IndexerOptions options;
 
+        private readonly ElasticsearchClient elasticsearchClient;
+
         private readonly ILogger<DocumentIndexerHostedService> logger;
         private readonly ApplicationDbContextFactory applicationDbContextFactory;
         private readonly ElasticsearchIndexService elasticsearchIndexService;
@@ -32,17 +35,23 @@ namespace NovelQT.Application.Elasticsearch.Hosting
             ILogger<DocumentIndexerHostedService> logger,
             ApplicationDbContextFactory applicationDbContextFactory,
             IOptions<IndexerOptions> options, 
-            ElasticsearchIndexService elasticsearchIndexService
+            ElasticsearchIndexService elasticsearchIndexService,
+             ElasticsearchClient elasticsearchClient
             )
         {
             this.logger = logger;
             this.options = options.Value;
             this.elasticsearchIndexService = elasticsearchIndexService;
             this.applicationDbContextFactory = applicationDbContextFactory;
+            this.elasticsearchClient = elasticsearchClient;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            var healthTimeout = TimeSpan.FromSeconds(50);
+            ClusterHealthResponse healthResponse = await elasticsearchClient.WaitForClusterAsync(healthTimeout, cancellationToken);
+            if (healthResponse.ApiCall.Success == false) return;
+
             var indexDelay = TimeSpan.FromSeconds(options.IndexDelay);
 
             if (logger.IsDebugEnabled())
