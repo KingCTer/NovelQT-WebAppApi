@@ -10,16 +10,17 @@ import androidx.paging.PagingState
 import com.ctosnetwork.qtreader.api.data.DataBook
 import com.ctosnetwork.qtreader.api.service.BookService
 
-private const val BOOK_STARTING_PAGE_INDEX = 0
+private const val BOOK_STARTING_PAGE_INDEX = 1
 
 class BookPagingSource (
-    private val service: BookService
+    private val service: BookService,
+    private val query: String
 ) : PagingSource<Int, DataBook>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataBook> {
         val page = params.key ?: BOOK_STARTING_PAGE_INDEX
         return try {
-            val response = service.getBooks(page, params.loadSize)
+            val response = service.getBooks(page, params.loadSize, query)
             val photos = response.data
             LoadResult.Page(
                 data = photos,

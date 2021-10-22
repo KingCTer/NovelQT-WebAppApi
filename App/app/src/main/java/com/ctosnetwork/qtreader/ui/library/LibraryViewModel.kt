@@ -21,12 +21,13 @@ import javax.inject.Inject
 class LibraryViewModel @Inject constructor(
     private val repository: BookRepository
 ) : ViewModel() {
-
+    private var currentQueryValue: String? = null
     private var currentGetResult: Flow<PagingData<DataBook>>? = null
 
-    fun getBooks(): Flow<PagingData<DataBook>> {
+    fun getBooks(query: String): Flow<PagingData<DataBook>> {
+        currentQueryValue = query
         val newResult: Flow<PagingData<DataBook>> =
-            repository.getBookResultStream().cachedIn(viewModelScope)
+            repository.getBookResultStream(query).cachedIn(viewModelScope)
         currentGetResult = newResult
         return newResult
     }

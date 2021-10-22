@@ -13,8 +13,8 @@ data class DataBook(
     @field:SerializedName("key") val key: String,
     @field:SerializedName("cover") val cover: String,
     @field:SerializedName("status") val status: String,
-    @field:SerializedName("authorId") val authorId: String,
-    @field:SerializedName("categoryId") val categoryId: String,
+    @field:SerializedName("authorName") val authorName: String,
+    @field:SerializedName("categoryName") val categoryName: String,
     @field:SerializedName("indexStatus") val indexStatus: Int,
     @field:SerializedName("like") val like: Int,
     @field:SerializedName("view") val view: Int

@@ -61,7 +61,7 @@
             android:fontFamily="@font/roboto"
             android:maxLines="1"
             android:scrollHorizontally="false"
-            android:text="@{book.authorId}"
+            android:text="@{book.authorName}"
             tools:text="Tên tác giả"
             android:textColor="@color/md_grey_500"
             android:textSize="12sp" />

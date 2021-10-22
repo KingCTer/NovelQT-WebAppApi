@@ -30,25 +30,24 @@ import kotlinx.coroutines.launch
 class LibraryFragment : Fragment() {
 
     private val libraryViewModel: LibraryViewModel by viewModels()
-    private var _binding: FragmentLibraryBinding? = null
 
     private lateinit var sliderImageList: ArrayList<ImageSlider>
     private lateinit var sliderAdapter: ImageSliderAdapter
 
-    private var getBookJob: Job? = null
-    private val adapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var getNewlyJob: Job? = null
+    private var getFavoriteJob: Job? = null
+    private var getPopularJob: Job? = null
+    private val newlyAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
+    private val favoriteAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
+    private val popularAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        context ?: return binding.root
 
         requireActivity().setTheme(R.style.Theme_Library)
 
@@ -94,20 +93,32 @@ class LibraryFragment : Fragment() {
         }
 
 
-        binding.recyclerViewNewlyUpdate.adapter = adapter
-        getBookJob?.cancel()
-        getBookJob = lifecycleScope.launch {
-            libraryViewModel.getBooks().collectLatest {
-                adapter.submitData(it)
+        binding.recyclerViewNewly.adapter = newlyAdapter
+        binding.recyclerViewFavorite.adapter = favoriteAdapter
+        binding.recyclerViewPopular.adapter = popularAdapter
+
+        getNewlyJob?.cancel()
+        getNewlyJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:key:desc").collectLatest {
+                newlyAdapter.submitData(it)
+            }
+        }
+        getFavoriteJob?.cancel()
+        getFavoriteJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:like:desc").collectLatest {
+                favoriteAdapter.submitData(it)
+            }
+        }
+
+        getPopularJob?.cancel()
+        getPopularJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:view:desc").collectLatest {
+                popularAdapter.submitData(it)
             }
         }
 
 
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

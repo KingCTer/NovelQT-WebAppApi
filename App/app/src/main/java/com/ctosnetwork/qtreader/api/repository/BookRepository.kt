@@ -15,10 +15,10 @@ import javax.inject.Inject
 
 class BookRepository @Inject constructor(private val service: BookService) {
 
-    fun getBookResultStream(): Flow<PagingData<DataBook>> {
+    fun getBookResultStream(query: String): Flow<PagingData<DataBook>> {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
-            pagingSourceFactory = { BookPagingSource(service) }
+            pagingSourceFactory = { BookPagingSource(service, query) }
         ).flow
     }
 

@@ -100,6 +100,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/library_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -245,7 +246,7 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_newly_update"
+                        android:id="@+id/recycler_view_newly"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
@@ -294,9 +295,15 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_most_favorite"
+                        android:id="@+id/recycler_view_favorite"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        app:reverseLayout="false"
+                        tools:context="com.ctosnetwork.novelqt.MainActivity"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_book_vertical_card" />
 
                 </LinearLayout>
 
@@ -339,7 +346,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_popular"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        app:reverseLayout="false"
+                        tools:context="com.ctosnetwork.novelqt.MainActivity"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_book_vertical_card" />
 
                 </LinearLayout>
 

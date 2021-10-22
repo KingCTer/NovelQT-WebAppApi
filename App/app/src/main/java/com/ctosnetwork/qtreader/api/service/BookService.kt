@@ -15,7 +15,8 @@ interface BookService {
     @GET("Book/pagination")
     suspend fun getBooks(
         @Query("page_number") pageNumber: Int,
-        @Query("page_size") pageSize: Int
+        @Query("page_size") pageSize: Int,
+        @Query("query") query: String
     ) : BookResponse
 
     companion object {
