@@ -63,7 +63,7 @@ namespace NovelQT.Services.Api.Controllers.Base
                     totalPages = Convert.ToInt32(Math.Ceiling(((double)totalRecords / (double)filter.page_size))),
                     totalRecords,
                     data = result,
-                    message = ""
+                    message = filter.query
                 });
             }
 

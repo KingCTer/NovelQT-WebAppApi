@@ -9,7 +9,8 @@ namespace NovelQT.Application.AutoMapper
             return new Type[]
             {
                 typeof(DomainToViewModelMappingProfile),
-                typeof(ViewModelToDomainMappingProfile)
+                typeof(ViewModelToDomainMappingProfile),
+                typeof(DomainToResponseMappingProfile)
             };
         }
     }

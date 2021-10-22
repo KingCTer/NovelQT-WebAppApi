@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using NovelQT.Application.Interfaces;
 using NovelQT.Application.Responses;
 using NovelQT.Application.ViewModels;
@@ -165,22 +166,22 @@ namespace NovelQT.Application.Services
             }
         }
 
-        public BookViewModel GetById(Guid id)
+        public BookResponse GetById(Guid id)
         {
-            return _mapper.Map<BookViewModel>(_bookRepository.GetById(id));
+            return _mapper.Map<BookResponse>(_bookRepository.GetById(id));
         }
 
-        public IEnumerable<BookViewModel> GetAll()
+        public IEnumerable<BookResponse> GetAll()
         {
-            return _bookRepository.GetAll().ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
+            return _bookRepository.GetAll().ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
         }
 
-        public RepositoryResponses<BookViewModel> GetAll(int skip, int take)
+        public RepositoryResponses<BookResponse> GetAll(int skip, int take, string query)
         {
-            var books = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take));
-            var bookViewModels = books.ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
+            var books = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take, query));
+            var bookResponses = books.ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
             
-            return new RepositoryResponses<BookViewModel>(bookViewModels, this.GetAll().Count());
+            return new RepositoryResponses<BookResponse>(bookResponses, this.GetAll().Count());
             //return _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take))
             //    .ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
         }

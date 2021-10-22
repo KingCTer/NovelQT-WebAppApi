@@ -44,7 +44,7 @@ namespace NovelQT.Services.Api.Controllers
             return Response(bookViewModels, 1);
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public IActionResult Get()
         {
             var bookViewModels = _bookAppService.GetAll();
@@ -54,7 +54,8 @@ namespace NovelQT.Services.Api.Controllers
         [HttpGet("pagination")]
         public IActionResult Paginationt([FromQuery] PaginationFilter filter)
         {
-            var booksResponses = _bookAppService.GetAll(filter.page_number, filter.page_size);
+            var filterQuery = new PaginationFilter(filter.page_number, filter.page_size, filter.query);
+            var booksResponses = _bookAppService.GetAll(filterQuery.page_number, filterQuery.page_size, filterQuery.query);
             return PagedResponse(booksResponses.ViewModel, booksResponses.TotalRecords, filter);
         }
 

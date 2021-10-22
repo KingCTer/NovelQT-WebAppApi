@@ -11,8 +11,8 @@ namespace NovelQT.Application.Interfaces
     public interface IBookAppService : IDisposable
     {
         public void Crawl(string url);
-        public BookViewModel GetById(Guid id);
-        public IEnumerable<BookViewModel> GetAll();
-        public RepositoryResponses<BookViewModel> GetAll(int skip, int take);
+        public BookResponse GetById(Guid id);
+        public IEnumerable<BookResponse> GetAll();
+        public RepositoryResponses<BookResponse> GetAll(int skip, int take, string query);
     }
 }
