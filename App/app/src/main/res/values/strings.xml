@@ -1,3 +1,35 @@
+<!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 12:03, 22/10/2021
+  -->
+
 <resources>
-    <string name="app_name">QTReader</string>
+    <string name="app_name">Novel QT</string>
+
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_library">Library</string>
+    <string name="title_bookcase">Bookcase</string>
+    <string name="title_discover">Discover</string>
+    <string name="title_account">Account</string>
+
+    <string name="navigation_bookcase_title">Tủ Sách</string>
+    <string name="navigation_library_title">Thư Viện</string>
+    <string name="navigation_discover_title">Khám Phá</string>
+    <string name="navigation_account_title">Tài Khoản</string>
+
+    <string name="library_menu_notify">Thông báo</string>
+
+    <string name="onboarding_first_title">Phong Phú Đa Dạng</string>
+    <string name="onboarding_first_des">Novel QT sở hữu một kho truyện khổng lồ; đa dạng nội dung và thể loại. Hứa hẹn đem lại cho độc giả trải nghiệm tốt nhất.</string>
+    <string name="onboarding_first_image_des">onboarding_first_image</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_first_second">Luôn dẫn đầu</string>
+    <string name="onboarding_second_des">Với hệ thống cập nhật truyện tự động, Novel QT luôn sắn sàng với những cuốn truyện mới nhất.</string>
+    <string name="onboarding_third_title">Tiềm kiếm nâng cao</string>
+    <string name="onboarding_third_des">Với Novel QT bạn có thể tìm bất kỳ cuốn truyện, chương truyện nào chỉ bằng nhưng từ khoá, tên truyện, tên tác giả; thậm chí là cả nội dung chương truyện.</string>
+    <string name="onboarding_finish">Finish</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

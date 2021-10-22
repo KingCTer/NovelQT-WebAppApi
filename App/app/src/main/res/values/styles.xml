@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 16:36, 19/09/2021
+  -->
+
+<resources>
+
+    <style name="Theme.Library" parent="Theme.QTReader">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+</resources>

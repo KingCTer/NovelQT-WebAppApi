@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by MyLaptop on 14:20, 20/10/2021
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/library_notify"
+        android:enabled="true"
+        android:icon="@drawable/fa_light_bell_18dp"
+        android:title="@string/library_menu_notify"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_library"
+        android:enabled="true"
+        android:icon="@drawable/navigation_library_icon"
+        android:title="@string/navigation_library_title"
+        app:showAsAction="never"/>
+</menu>
