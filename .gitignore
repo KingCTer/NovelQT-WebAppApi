@@ -362,4 +362,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /WebApi/src/NovelQT.Services.Api/wwwroot/assets/media
-/App
