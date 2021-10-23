@@ -15,6 +15,7 @@ namespace NovelQT.Infra.Data.Repository
 
         }
 
+
         public IQueryable<Book> GetByIndexStatus(IndexStatusEnum indexStatus)
         {
             return DbSet.AsNoTracking().Where(x => x.IndexStatus == indexStatus);

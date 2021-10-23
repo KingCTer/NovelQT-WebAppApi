@@ -47,7 +47,7 @@ namespace NovelQT.Services.Api.Controllers.Base
             return BadRequest(new
             {
                 success = false,
-                errors = _notifications.GetNotifications().Select(n => n.Value)
+                message = _notifications.GetNotifications().Select(n => n.Value)
             });
         }
 

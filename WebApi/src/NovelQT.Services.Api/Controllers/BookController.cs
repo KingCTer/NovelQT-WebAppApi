@@ -39,9 +39,14 @@ namespace NovelQT.Services.Api.Controllers
         [HttpGet("{id:guid}")]
         public IActionResult Get(Guid id)
         {
-            var bookViewModels = _bookAppService.GetById(id);
+            var bookResponse = _bookAppService.GetById(id);
 
-            return Response(bookViewModels, 1);
+            if (bookResponse == null)
+            {
+                return Response(bookResponse, 0);
+            }
+
+            return Response(bookResponse, 1);
         }
 
         [HttpGet]

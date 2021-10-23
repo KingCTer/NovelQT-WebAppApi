@@ -11,10 +11,13 @@ namespace NovelQT.Infra.Data.Repository
             var query = inputQuery;
 
             // modify the IQueryable using the specification's criteria expression
-            if (specification.Criteria != null)
-            {
-                query = query.Where(specification.Criteria);
-            }
+            //if (specification.Criteria != null)
+            //{
+            //    query = query.Where(specification.Criteria);
+            //}
+            // Wheres all expression-based wheres
+            query = specification.Criterias.Aggregate(query,
+                                    (current, where) => current.Where(where));
 
             // Includes all expression-based includes
             query = specification.Includes.Aggregate(query,

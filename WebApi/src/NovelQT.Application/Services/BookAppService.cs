@@ -168,7 +168,13 @@ namespace NovelQT.Application.Services
 
         public BookResponse GetById(Guid id)
         {
-            return _mapper.Map<BookResponse>(_bookRepository.GetById(id));
+            var book = _bookRepository.GetById(id);
+
+            if (book == null) return null;
+            
+            book.Author = _authorRepository.GetById(book.AuthorId);
+            book.Category = _categoryRepository.GetById(book.CategoryId);
+            return _mapper.Map<BookResponse>(book);
         }
 
         public IEnumerable<BookResponse> GetAll()
