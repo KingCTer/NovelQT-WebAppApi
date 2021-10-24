@@ -8,6 +8,11 @@
     <style name="Theme.Library" parent="Theme.QTReader">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+    <style name="Theme.BookList" parent="Theme.QTReader">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 </resources>

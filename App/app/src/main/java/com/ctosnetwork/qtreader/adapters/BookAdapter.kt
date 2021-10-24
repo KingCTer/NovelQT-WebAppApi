@@ -8,6 +8,7 @@ package com.ctosnetwork.qtreader.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.marginEnd
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +16,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.api.data.DataBook
+import com.ctosnetwork.qtreader.databinding.ItemBookHorizontalCardBinding
+import com.ctosnetwork.qtreader.databinding.ItemBookHorizontalCardListBinding
 import com.ctosnetwork.qtreader.databinding.ItemBookVerticalCardBinding
 
 class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, RecyclerView.ViewHolder>(DataBookDiffCallback()) {
 
     companion object {
         const val VIEW_TYPE_VERTICAL_CARD: Int = 0
+        const val VIEW_TYPE_HORIZONTAL_CARD: Int = 1
+        const val VIEW_TYPE_HORIZONTAL_CARD_LIST: Int = 2
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -33,6 +38,8 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
         if(book != null) {
             when(holder.itemViewType) {
                 Companion.VIEW_TYPE_VERTICAL_CARD -> (holder as BookVerticalViewHolder).bind(book)
+                Companion.VIEW_TYPE_HORIZONTAL_CARD -> (holder as BookHorizontalViewHolder).bind(book)
+                Companion.VIEW_TYPE_HORIZONTAL_CARD_LIST -> (holder as BookHorizontalListViewHolder).bind(book)
                 else -> (holder as BookVerticalViewHolder).bind(book)
             }
         }
@@ -46,12 +53,72 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
                     ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
+            Companion.VIEW_TYPE_HORIZONTAL_CARD -> {
+                BookHorizontalViewHolder(
+                    ItemBookHorizontalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+            Companion.VIEW_TYPE_HORIZONTAL_CARD_LIST -> {
+                BookHorizontalListViewHolder(
+                    ItemBookHorizontalCardListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
             else -> BookVerticalViewHolder(ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 
     class BookVerticalViewHolder(
         private val binding: ItemBookVerticalCardBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.setClickListener { view ->
+                binding.book?.let { book ->
+                    Log.e("mTest", book.id)
+                }
+            }
+        }
+
+        fun bind(item: DataBook) {
+            binding.apply {
+                book = item
+                executePendingBindings()
+            }
+
+            Glide.with(binding.root)
+                .load(item.cover)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.qd_book_cover)
+                .into(binding.bookImage)
+        }
+    }
+
+    class BookHorizontalViewHolder(
+        private val binding: ItemBookHorizontalCardBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.setClickListener { view ->
+                binding.book?.let { book ->
+                    Log.e("mTest", book.id)
+                }
+            }
+        }
+
+        fun bind(item: DataBook) {
+            binding.apply {
+                book = item
+                executePendingBindings()
+            }
+
+            Glide.with(binding.root)
+                .load(item.cover)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.qd_book_cover)
+                .into(binding.bookImage)
+        }
+    }
+
+    class BookHorizontalListViewHolder(
+        private val binding: ItemBookHorizontalCardListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener { view ->

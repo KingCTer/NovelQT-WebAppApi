@@ -5,16 +5,16 @@
 
 package com.ctosnetwork.qtreader.ui.library
 
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
@@ -27,18 +27,22 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+private const val QUERY_BOOK_NEWLY = "orderBy:key:desc"
+private const val QUERY_BOOK_FAVORITE = "orderBy:like:desc"
+private const val QUERY_BOOK_POPULAR = "orderBy:view:desc"
+
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
 
     private lateinit var binding: FragmentLibraryBinding
     private val libraryViewModel: LibraryViewModel by viewModels()
 
-    private var getNewlyJob: Job? = null
-    private var getFavoriteJob: Job? = null
-    private var getPopularJob: Job? = null
+    private var newlyJob: Job? = null
+    private var favoriteJob: Job? = null
+    private var popularJob: Job? = null
     private val newlyAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
     private val favoriteAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
-    private val popularAdapter = BookAdapter(BookAdapter.VIEW_TYPE_VERTICAL_CARD)
+    private val popularAdapter = BookAdapter(BookAdapter.VIEW_TYPE_HORIZONTAL_CARD)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,38 +52,48 @@ class LibraryFragment : Fragment() {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-        requireActivity().setTheme(R.style.Theme_Library)
+        //requireActivity().setTheme(R.style.Theme_Library)
+        val window: Window = requireActivity().window
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.transparent)
 
-        initialImageSlider(binding.viewPagerImageSlider);
+        initialImageSlider(binding.viewPagerImageSlider)
+        newlyJob = initialBook(binding.recyclerViewNewly, newlyAdapter, newlyJob, QUERY_BOOK_NEWLY)
+        favoriteJob = initialBook(binding.recyclerViewFavorite, favoriteAdapter, favoriteJob, QUERY_BOOK_FAVORITE)
+        popularJob = initialBook(binding.recyclerViewPopular, popularAdapter, popularJob, QUERY_BOOK_POPULAR)
 
-
-        binding.recyclerViewNewly.adapter = newlyAdapter
-        binding.recyclerViewFavorite.adapter = favoriteAdapter
-        binding.recyclerViewPopular.adapter = popularAdapter
-
-        getNewlyJob?.cancel()
-        getNewlyJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:key:desc").collectLatest {
-                newlyAdapter.submitData(it)
-            }
-        }
-        getFavoriteJob?.cancel()
-        getFavoriteJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:like:desc").collectLatest {
-                favoriteAdapter.submitData(it)
-            }
-        }
-
-        getPopularJob?.cancel()
-        getPopularJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:view:desc").collectLatest {
-                popularAdapter.submitData(it)
-            }
-        }
-
-
+        setListClick(binding.newlyList, QUERY_BOOK_NEWLY, "Truyện mới cập nhật")
+        setListClick(binding.favoriteList, QUERY_BOOK_FAVORITE, "Truyện được yêu thích")
+        setListClick(binding.popularList, QUERY_BOOK_POPULAR, "Truyện phổ biến")
 
         return binding.root
+    }
+
+    private fun setListClick(view: TextView, query: String, title: String) {
+        view.setOnClickListener {
+            val direction =
+                LibraryFragmentDirections.actionNavigationLibraryToBookListFragment(query, title)
+            findNavController().navigate(direction)
+        }
+    }
+
+    private fun initialBook(
+        recyclerView: RecyclerView,
+        bookAdapter: BookAdapter,
+        job: Job?,
+        query: String
+    ): Job {
+        recyclerView.adapter = bookAdapter
+        if (job != null) return job
+        job?.cancel()
+        val newJob = lifecycleScope.launch {
+            libraryViewModel.getBooks(query).collectLatest {
+                bookAdapter.submitData(it)
+            }
+        }
+        return newJob
+
     }
 
     private fun initialImageSlider(viewPager: ViewPager2) {
@@ -126,5 +140,6 @@ class LibraryFragment : Fragment() {
             }
         }
     }
+
 
 }

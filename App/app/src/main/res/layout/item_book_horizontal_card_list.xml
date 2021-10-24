@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by MyLaptop on 15:37, 21/10/2021
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="book"
+            type="com.ctosnetwork.qtreader.api.data.DataBook" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="@{clickListener}"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/book_image"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/qd_book_cover"
+                tools:ignore="ContentDescription" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:maxLines="2"
+                android:scrollHorizontally="false"
+                android:text="@{book.name}"
+                android:textColor="@color/md_cyan_500"
+                android:textSize="13sp"
+                tools:text="Tên truyện" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@{book.authorName}"
+                android:textColor="@color/md_black_1000"
+                android:textSize="12sp"
+                tools:text="Tên tác giả" />
+
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:checkable="false"
+                android:text="@{book.status}"
+                android:textColor="@color/md_grey_600"
+                android:textSize="12sp"
+                app:chipBackgroundColor="#00000000"
+                app:chipEndPadding="2dp"
+                app:chipMinHeight="18dp"
+                app:chipStartPadding="2dp"
+                app:chipStrokeColor="@color/md_grey_500"
+                app:chipStrokeWidth="1dp"
+                app:ensureMinTouchTargetSize="false"
+                tools:text="Trạng Thái" />
+
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:checkable="false"
+                android:text="@{book.categoryName}"
+                android:textColor="@color/md_grey_600"
+                android:textSize="12sp"
+                app:chipBackgroundColor="#00000000"
+                app:chipEndPadding="2dp"
+                app:chipMinHeight="18dp"
+                app:chipStartPadding="2dp"
+                app:chipStrokeColor="@color/md_grey_500"
+                app:chipStrokeWidth="1dp"
+                app:ensureMinTouchTargetSize="false"
+                tools:text="Thể Loại" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

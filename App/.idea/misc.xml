@@ -9,12 +9,15 @@
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_on_boarding.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_on_boarding_first_screen_fragment.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_splash_screen.xml" value="0.28306159420289856" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/book_list_fragment.xml" value="0.33695652173913043" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_account.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_bookcase.xml" value="0.28306159420289856" />
-        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_library.xml" value="0.28306159420289856" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_library.xml" value="0.33" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_on_boarding_first_screen.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_on_boarding_second_screen.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_on_boarding_third_screen.xml" value="0.28306159420289856" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/item_book_horizontal_card.xml" value="0.34479166666666666" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/item_book_horizontal_card_list.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/item_book_vertical_card.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/pager_slider_item.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/bottom_nav_menu.xml" value="0.34479166666666666" />

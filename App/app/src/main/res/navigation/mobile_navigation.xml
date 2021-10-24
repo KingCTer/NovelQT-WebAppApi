@@ -14,7 +14,15 @@
         android:id="@+id/navigation_library"
         android:name="com.ctosnetwork.qtreader.ui.library.LibraryFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_navigation_library_to_bookListFragment"
+            app:destination="@id/bookListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_bookcase"
@@ -32,4 +40,17 @@
         android:name="com.ctosnetwork.qtreader.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="com.ctosnetwork.qtreader.ui.library.BookListFragment"
+        android:label="book_list_fragment"
+        tools:layout="@layout/book_list_fragment" >
+        <argument
+            android:name="query"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="Danh sách" />
+    </fragment>
 </navigation>

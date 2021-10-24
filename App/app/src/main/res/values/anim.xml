@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 10:13, 24/10/2021
+  -->
+
+<!-- Values used for animations -->
+<resources>
+
+    <!-- Duration (in milliseconds) for slide transition animation -->
+    <integer name="slide">200</integer>
+</resources>
