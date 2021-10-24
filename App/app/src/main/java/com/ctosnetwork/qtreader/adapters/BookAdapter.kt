@@ -40,13 +40,13 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when(viewType) {
+        return when(viewType) {
             Companion.VIEW_TYPE_VERTICAL_CARD -> {
-                return BookVerticalViewHolder(
+                BookVerticalViewHolder(
                     ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
-            else -> return BookVerticalViewHolder(ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            else -> BookVerticalViewHolder(ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 

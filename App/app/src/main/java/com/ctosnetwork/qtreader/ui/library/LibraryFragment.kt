@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.adapters.ImageSliderAdapter
@@ -29,10 +30,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
 
+    private lateinit var binding: FragmentLibraryBinding
     private val libraryViewModel: LibraryViewModel by viewModels()
-
-    private lateinit var sliderImageList: ArrayList<ImageSlider>
-    private lateinit var sliderAdapter: ImageSliderAdapter
 
     private var getNewlyJob: Job? = null
     private var getFavoriteJob: Job? = null
@@ -46,15 +45,48 @@ class LibraryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        binding = FragmentLibraryBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         requireActivity().setTheme(R.style.Theme_Library)
 
-        val viewPager = binding.viewPagerImageSlider
+        initialImageSlider(binding.viewPagerImageSlider);
 
-        sliderImageList = ArrayList()
-        sliderAdapter = ImageSliderAdapter()
+
+        binding.recyclerViewNewly.adapter = newlyAdapter
+        binding.recyclerViewFavorite.adapter = favoriteAdapter
+        binding.recyclerViewPopular.adapter = popularAdapter
+
+        getNewlyJob?.cancel()
+        getNewlyJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:key:desc").collectLatest {
+                newlyAdapter.submitData(it)
+            }
+        }
+        getFavoriteJob?.cancel()
+        getFavoriteJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:like:desc").collectLatest {
+                favoriteAdapter.submitData(it)
+            }
+        }
+
+        getPopularJob?.cancel()
+        getPopularJob = lifecycleScope.launch {
+            libraryViewModel.getBooks("orderBy:view:desc").collectLatest {
+                popularAdapter.submitData(it)
+            }
+        }
+
+
+
+        return binding.root
+    }
+
+    private fun initialImageSlider(viewPager: ViewPager2) {
+
+        val sliderImageList: ArrayList<ImageSlider> = ArrayList()
+        val sliderAdapter: ImageSliderAdapter = ImageSliderAdapter()
+
         viewPager.adapter = sliderAdapter
 
         sliderImageList.add(
@@ -85,40 +117,14 @@ class LibraryFragment : Fragment() {
 
         lifecycleScope.launch {
             while (true) {
-                for (i in 0..sliderImageList.size) {
-                    delay(2500)
-                    viewPager.setCurrentItem(i, true)
+                delay(2500)
+                if (viewPager.currentItem == sliderImageList.size - 1) {
+                    viewPager.setCurrentItem(0, true)
+                } else {
+                    viewPager.setCurrentItem(viewPager.currentItem + 1, true)
                 }
             }
         }
-
-
-        binding.recyclerViewNewly.adapter = newlyAdapter
-        binding.recyclerViewFavorite.adapter = favoriteAdapter
-        binding.recyclerViewPopular.adapter = popularAdapter
-
-        getNewlyJob?.cancel()
-        getNewlyJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:key:desc").collectLatest {
-                newlyAdapter.submitData(it)
-            }
-        }
-        getFavoriteJob?.cancel()
-        getFavoriteJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:like:desc").collectLatest {
-                favoriteAdapter.submitData(it)
-            }
-        }
-
-        getPopularJob?.cancel()
-        getPopularJob = lifecycleScope.launch {
-            libraryViewModel.getBooks("orderBy:view:desc").collectLatest {
-                popularAdapter.submitData(it)
-            }
-        }
-
-
-        return binding.root
     }
 
 }
