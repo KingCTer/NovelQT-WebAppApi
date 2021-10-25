@@ -55,11 +55,18 @@ namespace NovelQT.Infra.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ChapterTotal")
+                        .HasColumnType("int");
+
                     b.Property<string>("Cover")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IndexStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("Intro")
+                        .IsUnicode(true)
+                        .HasColumnType("ntext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

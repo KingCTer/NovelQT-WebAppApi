@@ -47,7 +47,9 @@ namespace NovelQT.Domain.CommandHandlers
                 message.Like,
                 message.AuthorId,
                 message.CategoryId,
-                message.IndexStatus
+                message.IndexStatus,
+                message.ChapterTotal,
+                message.Intro
                 );
 
             if (_bookRepository.GetByKey(book.Key) != null)
@@ -84,7 +86,9 @@ namespace NovelQT.Domain.CommandHandlers
                 message.Like,
                 message.AuthorId,
                 message.CategoryId,
-                message.IndexStatus
+                message.IndexStatus,
+                message.ChapterTotal,
+                message.Intro
                 );
 
             var existingBook = _bookRepository.GetById(book.Id);

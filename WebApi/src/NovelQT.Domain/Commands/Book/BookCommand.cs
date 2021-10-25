@@ -14,6 +14,8 @@ namespace NovelQT.Domain.Commands.Book
         public string Status { get; protected set; }
         public int View { get; protected set; }
         public int Like { get; protected set; }
+        public int ChapterTotal { get; set; }
+        public string Intro { get; set; }
 
         public IndexStatusEnum IndexStatus { get; set; }
 

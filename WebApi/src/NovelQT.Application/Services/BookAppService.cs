@@ -74,7 +74,9 @@ namespace NovelQT.Application.Services
                 var info = Regex.Match(htmltext, @"(?=<div class=""book-information cf"").*?(?<=<div class=""content-nav-wrap cf"">)", RegexOptions.Singleline);
 
                 var book = new BookViewModel();
-                
+
+                book.Intro = Regex.Match(htmltext, @"(?<=<div class=""book-intro"">).*?(?=<\/div>)", RegexOptions.Singleline).Value.ToString().Trim();
+
                 book.Name = Regex.Match(info.Value, @"(?<=<h1>).*?(?=<\/h1>)", RegexOptions.Singleline).Value.ToString();
 
                 string bookAuthor = Regex.Match(info.Value, @"(?<=class=""blue"">).*?(?=<\/a>)").Value.ToString();
@@ -91,6 +93,12 @@ namespace NovelQT.Application.Services
                 book.View = int.Parse(Regex.Match(info.Value, @"(?<=ULtwOOTH-view"">).*?(?=<\/span>)").Value.ToString());
 
                 book.Key = Regex.Match(info.Value, @"(?<=likeStory\(').*?(?=')").Value.ToString();
+
+                response = httpClient.GetAsync("https://truyen.tangthuvien.vn/story/chapters?story_id=" + book.Key).Result;
+                string htmlList = WebUtility.HtmlDecode(response.Content.ReadAsStringAsync().Result);
+                var chapterList = Regex.Matches(htmlList, @"(?=<li).*?(?=<\/li>)", RegexOptions.Singleline);
+
+                book.ChapterTotal = chapterList.Count;
 
 
                 var author = _mapper.Map<AuthorViewModel>(_authorRepository.GetByName(bookAuthor));
@@ -127,12 +135,8 @@ namespace NovelQT.Application.Services
                 
 
 
-                response = httpClient.GetAsync("https://truyen.tangthuvien.vn/story/chapters?story_id=" + book.Key).Result;
-                string htmlList = WebUtility.HtmlDecode(response.Content.ReadAsStringAsync().Result);
+                
 
-
-
-                var chapterList = Regex.Matches(htmlList, @"(?=<li).*?(?=<\/li>)", RegexOptions.Singleline);
                 foreach (var chapter in chapterList)
                 {
                     var chapterViewModel = new ChapterViewModel();

@@ -10,7 +10,7 @@ namespace NovelQT.Application.AutoMapper
         public DomainToResponseMappingProfile()
         {
             CreateMap<Book, BookResponse>()
-                .ConstructUsing(c => new BookResponse(c.Id, c.Name, c.Key, c.Cover, c.Status, c.View, c.Like, c.Author.Name, c.Category.Name));
+                .ConstructUsing(c => new BookResponse(c.Id, c.Name, c.Key, c.Cover, c.Status, c.View, c.Like, c.Author.Name, c.Category.Name, c.ChapterTotal, c.Intro));
 
         }
     }

@@ -12,7 +12,18 @@ namespace NovelQT.Application.Responses
         {
         }
 
-        public BookResponse(Guid id, string name, string key, string cover, string status, int view, int like, string authorName, string categoryName)
+        public BookResponse(Guid id,
+                            string name,
+                            string key,
+                            string cover,
+                            string status,
+                            int view,
+                            int like,
+                            string authorName,
+                            string categoryName,
+                            int chapterTotal,
+                            string intro
+            )
         {
             Id = id;
             Name = name;
@@ -23,6 +34,8 @@ namespace NovelQT.Application.Responses
             Like = like;
             AuthorName = authorName;
             CategoryName = categoryName;
+            ChapterTotal = chapterTotal;
+            Intro = intro;
         }
 
         public Guid Id { get; set; }
@@ -35,5 +48,7 @@ namespace NovelQT.Application.Responses
         public int Like { get; set; }
         public string AuthorName { get; set; }
         public string CategoryName { get; set; }
+        public int ChapterTotal { get; set; }
+        public string Intro { get; set; }
     }
 }

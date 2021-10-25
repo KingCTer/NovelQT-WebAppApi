@@ -16,6 +16,10 @@ namespace NovelQT.Infra.Data.Mappings
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
+            builder.Property(x => x.Intro)
+                .HasColumnType("ntext")
+                .IsUnicode();
+
 
             builder.HasQueryFilter(p => !p.IsDeleted);
         }
