@@ -7,8 +7,10 @@ package com.ctosnetwork.qtreader.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.marginEnd
+import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +21,11 @@ import com.ctosnetwork.qtreader.api.data.DataBook
 import com.ctosnetwork.qtreader.databinding.ItemBookHorizontalCardBinding
 import com.ctosnetwork.qtreader.databinding.ItemBookHorizontalCardListBinding
 import com.ctosnetwork.qtreader.databinding.ItemBookVerticalCardBinding
+import com.ctosnetwork.qtreader.ui.book.BookListFragmentDirections
+import com.ctosnetwork.qtreader.ui.library.LibraryFragmentDirections
 
-class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, RecyclerView.ViewHolder>(DataBookDiffCallback()) {
+class BookAdapter(private val viewType: Int) :
+    PagingDataAdapter<DataBook, RecyclerView.ViewHolder>(DataBookDiffCallback()) {
 
     companion object {
         const val VIEW_TYPE_VERTICAL_CARD: Int = 0
@@ -32,14 +37,18 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
         return viewType
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int){
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val book = getItem(position)
 
-        if(book != null) {
-            when(holder.itemViewType) {
+        if (book != null) {
+            when (holder.itemViewType) {
                 Companion.VIEW_TYPE_VERTICAL_CARD -> (holder as BookVerticalViewHolder).bind(book)
-                Companion.VIEW_TYPE_HORIZONTAL_CARD -> (holder as BookHorizontalViewHolder).bind(book)
-                Companion.VIEW_TYPE_HORIZONTAL_CARD_LIST -> (holder as BookHorizontalListViewHolder).bind(book)
+                Companion.VIEW_TYPE_HORIZONTAL_CARD -> (holder as BookHorizontalViewHolder).bind(
+                    book
+                )
+                Companion.VIEW_TYPE_HORIZONTAL_CARD_LIST -> (holder as BookHorizontalListViewHolder).bind(
+                    book
+                )
                 else -> (holder as BookVerticalViewHolder).bind(book)
             }
         }
@@ -47,23 +56,41 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             Companion.VIEW_TYPE_VERTICAL_CARD -> {
                 BookVerticalViewHolder(
-                    ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemBookVerticalCardBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
             Companion.VIEW_TYPE_HORIZONTAL_CARD -> {
                 BookHorizontalViewHolder(
-                    ItemBookHorizontalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemBookHorizontalCardBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
             Companion.VIEW_TYPE_HORIZONTAL_CARD_LIST -> {
                 BookHorizontalListViewHolder(
-                    ItemBookHorizontalCardListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemBookHorizontalCardListBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
-            else -> BookVerticalViewHolder(ItemBookVerticalCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            else -> BookVerticalViewHolder(
+                ItemBookVerticalCardBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
+                    ), parent, false
+                )
+            )
         }
     }
 
@@ -73,9 +100,15 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
         init {
             binding.setClickListener { view ->
                 binding.book?.let { book ->
-                    Log.e("mTest", book.id)
+                    navigateToBookDetail(book, view)
                 }
             }
+        }
+
+        private fun navigateToBookDetail(book: DataBook, view: View) {
+            val direction =
+                LibraryFragmentDirections.actionNavigationLibraryToBookDetailFragment(book.id)
+            view.findNavController().navigate(direction)
         }
 
         fun bind(item: DataBook) {
@@ -98,15 +131,24 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
         init {
             binding.setClickListener { view ->
                 binding.book?.let { book ->
-                    Log.e("mTest", book.id)
+                    navigateToBookDetail(book, view)
                 }
             }
+        }
+
+        private fun navigateToBookDetail(book: DataBook, view: View) {
+            val direction =
+                LibraryFragmentDirections.actionNavigationLibraryToBookDetailFragment(book.id)
+            view.findNavController().navigate(direction)
         }
 
         fun bind(item: DataBook) {
             binding.apply {
                 book = item
                 executePendingBindings()
+
+                val chapterTotalText = item.chapterTotal.toString() + " chương"
+                binding.textViewChapterTotal.text = chapterTotalText
             }
 
             Glide.with(binding.root)
@@ -123,15 +165,24 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
         init {
             binding.setClickListener { view ->
                 binding.book?.let { book ->
-                    Log.e("mTest", book.id)
+                    navigateToBookDetail(book, view)
                 }
             }
+        }
+
+        private fun navigateToBookDetail(book: DataBook, view: View) {
+            val direction =
+                BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(book.id)
+            view.findNavController().navigate(direction)
         }
 
         fun bind(item: DataBook) {
             binding.apply {
                 book = item
                 executePendingBindings()
+
+                val chapterTotalText = item.chapterTotal.toString() + " chương"
+                binding.textViewListChapterTotal.text = chapterTotalText
             }
 
             Glide.with(binding.root)
@@ -141,7 +192,6 @@ class BookAdapter(private val viewType: Int) : PagingDataAdapter<DataBook, Recyc
                 .into(binding.bookImage)
         }
     }
-
 
 
 }

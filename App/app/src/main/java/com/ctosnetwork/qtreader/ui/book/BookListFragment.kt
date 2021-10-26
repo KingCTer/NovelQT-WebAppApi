@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2021 ctOS-Network. All rights reserved.
- * Created by KingCTer on 10:08, 24/10/2021
+ * Created by KingCTer on 18:06, 24/10/2021
  */
 
-package com.ctosnetwork.qtreader.ui.library
+package com.ctosnetwork.qtreader.ui.book
 
 import android.os.Bundle
 import android.view.*
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
-import com.ctosnetwork.qtreader.databinding.BookListFragmentBinding
+import com.ctosnetwork.qtreader.databinding.FragmentBookListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -35,7 +35,7 @@ class BookListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<BookListFragmentBinding>(inflater, R.layout.book_list_fragment, container, false)
+        val binding = DataBindingUtil.inflate<FragmentBookListBinding>(inflater, R.layout.fragment_book_list, container, false)
 
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.primaryColor)
 
@@ -47,6 +47,11 @@ class BookListFragment : Fragment() {
         }
 
         getBookListJob = initialBook(binding.recyclerBookList, bookListAdapter, getBookListJob)
+
+        binding.swipeBookList.setOnRefreshListener {
+            getBookListJob = initialBook(binding.recyclerBookList, bookListAdapter, getBookListJob)
+            binding.swipeBookList.isRefreshing = false
+        }
 
         return binding.root
     }

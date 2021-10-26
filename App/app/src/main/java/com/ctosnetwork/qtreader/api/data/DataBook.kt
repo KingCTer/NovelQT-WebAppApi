@@ -15,7 +15,8 @@ data class DataBook(
     @field:SerializedName("status") val status: String,
     @field:SerializedName("authorName") val authorName: String,
     @field:SerializedName("categoryName") val categoryName: String,
-    @field:SerializedName("indexStatus") val indexStatus: Int,
+    @field:SerializedName("view") val view: Int,
     @field:SerializedName("like") val like: Int,
-    @field:SerializedName("view") val view: Int
+    @field:SerializedName("chapterTotal") val chapterTotal: Int,
+    @field:SerializedName("intro") val intro: String
 )

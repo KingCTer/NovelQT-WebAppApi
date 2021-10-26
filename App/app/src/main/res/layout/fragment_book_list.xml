@@ -6,13 +6,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.library.BookListFragment">
+    tools:context=".ui.book.BookListFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.ctosnetwork.qtreader.ui.library.BookListViewModel" />
+            type="com.ctosnetwork.qtreader.ui.book.BookListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,6 +35,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_book_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"

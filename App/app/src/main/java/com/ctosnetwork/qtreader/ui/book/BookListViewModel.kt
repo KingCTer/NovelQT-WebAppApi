@@ -1,4 +1,9 @@
-package com.ctosnetwork.qtreader.ui.library
+/*
+ * Copyright (c) 2021 ctOS-Network. All rights reserved.
+ * Created by KingCTer on 18:06, 24/10/2021
+ */
+
+package com.ctosnetwork.qtreader.ui.book
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -17,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BookListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: BookRepository,
+    private val repository: BookRepository
 ) : ViewModel() {
 
     val toolbarTitle: String = savedStateHandle.get<String>(TOOLBAR_TITLE_SAVED_STATE_KEY)!!

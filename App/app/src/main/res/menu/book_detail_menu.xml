@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 18:58, 26/10/2021
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/book_detail_something"
+        android:enabled="true"
+        android:icon="@drawable/navigation_library_icon"
+        android:title="Something"
+        app:showAsAction="never"/>
+
+</menu>

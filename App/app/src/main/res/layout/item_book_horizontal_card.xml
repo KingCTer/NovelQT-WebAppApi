@@ -73,41 +73,60 @@
                 android:textSize="12sp"
                 tools:text="Tên tác giả" />
 
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/text_view_chapter_total"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:checkable="false"
-                android:text="@{book.status}"
-                android:textColor="@color/md_grey_600"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textColor="@color/md_grey_500"
                 android:textSize="12sp"
-                app:chipBackgroundColor="#00000000"
-                app:chipEndPadding="2dp"
-                app:chipMinHeight="18dp"
-                app:chipStartPadding="2dp"
-                app:chipStrokeColor="@color/md_grey_500"
-                app:chipStrokeWidth="1dp"
-                app:ensureMinTouchTargetSize="false"
-                tools:text="Trạng Thái" />
+                tools:text="Số chương" />
 
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:checkable="false"
-                android:text="@{book.categoryName}"
-                android:textColor="@color/md_grey_600"
-                android:textSize="12sp"
-                app:chipBackgroundColor="#00000000"
-                app:chipEndPadding="2dp"
-                app:chipMinHeight="18dp"
-                app:chipStartPadding="2dp"
-                app:chipStrokeColor="@color/md_grey_500"
-                app:chipStrokeWidth="1dp"
-                app:ensureMinTouchTargetSize="false"
-                tools:text="Thể Loại" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="false"
+                    android:text="@{book.status}"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="12sp"
+                    app:chipBackgroundColor="#00000000"
+                    app:chipEndPadding="2dp"
+                    app:chipMinHeight="18dp"
+                    app:chipStartPadding="2dp"
+                    app:chipStrokeColor="@color/md_grey_500"
+                    app:chipStrokeWidth="1dp"
+                    app:ensureMinTouchTargetSize="false"
+                    tools:text="Trạng Thái" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:checkable="false"
+                    android:text="@{book.categoryName}"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="12sp"
+                    app:chipBackgroundColor="#00000000"
+                    app:chipEndPadding="2dp"
+                    app:chipMinHeight="18dp"
+                    app:chipStartPadding="2dp"
+                    app:chipStrokeColor="@color/md_grey_500"
+                    app:chipStrokeWidth="1dp"
+                    app:ensureMinTouchTargetSize="false"
+                    tools:text="Thể Loại" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

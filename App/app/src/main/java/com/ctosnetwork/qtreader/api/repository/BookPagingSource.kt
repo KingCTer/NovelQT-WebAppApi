@@ -21,9 +21,9 @@ class BookPagingSource (
         val page = params.key ?: BOOK_STARTING_PAGE_INDEX
         return try {
             val response = service.getBooks(page, params.loadSize, query)
-            val photos = response.data
+            val books = response.data
             LoadResult.Page(
-                data = photos,
+                data = books,
                 prevKey = if (page == BOOK_STARTING_PAGE_INDEX) null else page - 1,
                 nextKey = if (page == response.totalPages) null else page + 1
             )

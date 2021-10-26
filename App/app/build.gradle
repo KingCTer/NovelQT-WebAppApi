@@ -91,6 +91,9 @@ dependencies {
     // Material View Pager Dots Indicator: https://github.com/tommybuonomo/dotsindicator
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
+    // Glide Transformations: https://github.com/wasabeef/glide-transformations
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+
     // Testing dependencies
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
