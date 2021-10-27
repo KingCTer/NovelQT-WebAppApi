@@ -17,6 +17,7 @@
 package com.ctosnetwork.qtreader.di
 
 import com.ctosnetwork.qtreader.api.service.BookService
+import com.ctosnetwork.qtreader.api.service.ChapterService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,11 @@ class NetworkModule {
     @Provides
     fun provideBookService(): BookService {
         return BookService.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideChapterService(): ChapterService {
+        return ChapterService.create()
     }
 }

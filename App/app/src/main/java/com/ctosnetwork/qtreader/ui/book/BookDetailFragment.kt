@@ -11,20 +11,21 @@ import android.view.*
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.api.data.DataBook
+import com.ctosnetwork.qtreader.api.data.DataChapter
 import com.ctosnetwork.qtreader.api.repository.BookRepository
+import com.ctosnetwork.qtreader.api.repository.ChapterRepository
 import com.ctosnetwork.qtreader.api.service.BookService
+import com.ctosnetwork.qtreader.api.service.ChapterService
 import com.ctosnetwork.qtreader.databinding.FragmentBookDetailBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
@@ -39,6 +40,7 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class BookDetailFragment : Fragment() {
 
+    private lateinit var binding: FragmentBookDetailBinding
     private val bookDetailViewModel: BookDetailViewModel by viewModels()
 
     private var getSameAuthorJob: Job? = null
@@ -48,7 +50,9 @@ class BookDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<FragmentBookDetailBinding>(inflater, R.layout.fragment_book_detail, container,false)
+        //val binding = DataBindingUtil.inflate<FragmentBookDetailBinding>(inflater, R.layout.fragment_book_detail, container,false)
+        binding = FragmentBookDetailBinding.inflate(inflater, container, false)
+        context ?: return binding.root
 
         val window: Window = requireActivity().window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -58,8 +62,6 @@ class BookDetailFragment : Fragment() {
         binding.bookDetailToolbar.setNavigationOnClickListener { view ->
             view.findNavController().navigateUp()
         }
-
-
 
         val repository = BookRepository(BookService.create())
         repository.getBookById(bookDetailViewModel.bookId){ result: DataBook? ->
@@ -83,14 +85,27 @@ class BookDetailFragment : Fragment() {
 
             Glide.with(binding.root)
                 .load(result.cover)
+                .placeholder(R.drawable.qd_book_cover)
                 .into(binding.toolbarContentImage)
 
             Glide.with(binding.root)
                 .load(result.cover)
+                .placeholder(R.drawable.qd_book_cover)
                 .into(binding.bookDetailCoverImage)
 
             val query: String = "where:authorName=" + book.authorName
             getSameAuthorJob = initialBook(binding.recyclerSameAuthor, sameAuthorAdapter, getSameAuthorJob, query)
+
+            binding.setClickChapterListListener { view ->
+                val direction =
+                    BookDetailFragmentDirections.actionBookDetailFragmentToChapterListFragment(book.id)
+                view.findNavController().navigate(direction)
+            }
+        }
+
+        val chapterRepository = ChapterRepository(ChapterService.create())
+        chapterRepository.getLastChapter(bookDetailViewModel.bookId) { chapter: DataChapter ->
+            binding.lastChapterNameBookDetail.text = chapter.name
         }
 
         binding.lifecycleOwner = viewLifecycleOwner

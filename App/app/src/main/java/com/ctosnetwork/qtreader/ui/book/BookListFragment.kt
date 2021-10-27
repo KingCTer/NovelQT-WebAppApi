@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.ctosnetwork.qtreader.R
@@ -49,6 +50,8 @@ class BookListFragment : Fragment() {
         getBookListJob = initialBook(binding.recyclerBookList, bookListAdapter, getBookListJob)
 
         binding.swipeBookList.setOnRefreshListener {
+            bookListAdapter.submitData(lifecycle, PagingData.empty())
+            getBookListJob = null
             getBookListJob = initialBook(binding.recyclerBookList, bookListAdapter, getBookListJob)
             binding.swipeBookList.isRefreshing = false
         }
