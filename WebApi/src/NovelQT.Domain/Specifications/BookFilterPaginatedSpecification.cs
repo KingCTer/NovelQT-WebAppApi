@@ -13,7 +13,15 @@ namespace NovelQT.Domain.Specifications
             AddInclude(x => x.Author);
             AddInclude(x => x.Category);
 
-            if (query == "") return;
+            if (query == "")
+            {
+                ApplyOrderBy(orderByExpression: x => x.Key);
+                return;
+            }
+            if (!query.Contains("orderBy"))
+            {
+                ApplyOrderBy(orderByExpression: x => x.Key);
+            }
             var queryList = query.Split(";");
             foreach (var item in queryList)
             {
@@ -74,12 +82,14 @@ namespace NovelQT.Domain.Specifications
                             ApplyOrderBy(orderByExpression: x => x.Key);
                             break;
                         default:
+                            ApplyOrderBy(orderByExpression: x => x.Key);
                             break;
                     }
                     continue;
                 }
-                
+
             }
+
 
         }
     }

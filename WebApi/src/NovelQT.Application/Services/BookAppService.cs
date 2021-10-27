@@ -147,7 +147,7 @@ namespace NovelQT.Application.Services
                     chapterViewModel.Name = Regex.Match(chapter.ToString(), @"(?<=chapter-text"">).*?(?=<\/span>)").Value.ToString();
                     chapterViewModel.Url = Regex.Match(chapter.ToString(), @"(?<=href="" ).*?(?= "")").Value.ToString();
 
-                    var chapterInDatabase = _mapper.Map<ChapterViewModel>(_chapterRepository.GetByBookIdAndOrder(chapterViewModel.BookId, chapterViewModel.Order));
+                    var chapterInDatabase = _mapper.Map<ChapterViewModel>(_chapterRepository.GetChapterByBookIdAndOrder(chapterViewModel.BookId, chapterViewModel.Order));
                     if (chapterInDatabase == null)
                     {
                         response = httpClient.GetAsync(chapterViewModel.Url).Result;
@@ -188,10 +188,11 @@ namespace NovelQT.Application.Services
 
         public RepositoryResponses<BookResponse> GetAll(int skip, int take, string query)
         {
-            var books = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take, query));
-            var bookResponses = books.ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
+            var response = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip*take, take, query));
+
+            var books = response.Queryable.ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
             
-            return new RepositoryResponses<BookResponse>(bookResponses, this.GetAll().Count());
+            return new RepositoryResponses<BookResponse>(books, response.TotalRecords);
             //return _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take))
             //    .ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
         }

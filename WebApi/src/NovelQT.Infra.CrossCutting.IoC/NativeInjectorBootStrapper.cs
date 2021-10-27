@@ -51,6 +51,7 @@ namespace NovelQT.Infra.CrossCutting.IoC
             // Application
             services.AddScoped<ICustomerAppService, CustomerAppService>();
             services.AddScoped<IBookAppService, BookAppService>();
+            services.AddScoped<IChapterAppService, ChapterAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();

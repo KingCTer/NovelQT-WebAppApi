@@ -25,6 +25,15 @@ namespace NovelQT.Domain.Models
             IndexStatus = indexStatus;
         }
 
+        public Chapter(Guid id, Guid bookId, int order, string name, string url)
+        {
+            Id = id;
+            Order = order;
+            Name = name;
+            Url = url;
+            BookId = bookId;
+        }
+
         public int Order { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }

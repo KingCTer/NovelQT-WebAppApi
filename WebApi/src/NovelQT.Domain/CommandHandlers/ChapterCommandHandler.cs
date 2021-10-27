@@ -41,7 +41,7 @@ namespace NovelQT.Domain.CommandHandlers
 
             var chapter = new Chapter(Guid.NewGuid(), message.Order, message.Name, message.Url, message.Content, message.BookId, message.IndexStatus);
 
-            if (_chapterRepository.GetByBookIdAndOrder(chapter.BookId, chapter.Order) != null)
+            if (_chapterRepository.GetChapterByBookIdAndOrder(chapter.BookId, chapter.Order) != null)
             {
                 //Bus.RaiseEvent(new DomainNotification(message.MessageType, "The chapter has already been taken."));
                 return Task.FromResult(false);

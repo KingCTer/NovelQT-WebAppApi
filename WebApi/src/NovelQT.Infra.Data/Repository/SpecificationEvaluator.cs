@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NovelQT.Domain.Interfaces;
+using NovelQT.Domain.Specifications;
 using System.Linq;
 
 namespace NovelQT.Infra.Data.Repository
 {
     public class SpecificationEvaluator<T> where T : class
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)
+        public static SpecificationResponse<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)
         {
             var query = inputQuery;
 
@@ -42,13 +43,15 @@ namespace NovelQT.Infra.Data.Repository
                 query = query.GroupBy(specification.GroupBy).SelectMany(x => x);
             }
 
+            var totalRecords = query.Count();
+
             // Apply paging if enabled
             if (specification.IsPagingEnabled)
             {
                 query = query.Skip(specification.Skip)
                              .Take(specification.Take);
             }
-            return query;
+            return new SpecificationResponse<T>(query, totalRecords);
         }
     }
 }

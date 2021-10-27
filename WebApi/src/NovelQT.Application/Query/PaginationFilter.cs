@@ -21,7 +21,7 @@ namespace NovelQT.Application.Query
         public PaginationFilter(int page_number, int page_size, string query = "")
         {
             this.page_number = page_number < 1 ? 0 : page_number - 1;
-            if (page_size < 1 || page_size > 100)
+            if (page_size < 1 || page_size > 200)
             {
                 this.page_size = 10;
             }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NovelQT.Domain.Interfaces;
+using NovelQT.Domain.Specifications;
 using NovelQT.Infra.Data.Context;
 using System;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace NovelQT.Infra.Data.Repository
             return DbSet;
         }
 
-        public virtual IQueryable<TEntity> GetAll(ISpecification<TEntity> spec)
+        public virtual SpecificationResponse<TEntity> GetAll(ISpecification<TEntity> spec)
         {
             return ApplySpecification(spec);
         }
@@ -64,7 +65,7 @@ namespace NovelQT.Infra.Data.Repository
             GC.SuppressFinalize(this);
         }
 
-        private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec)
+        private SpecificationResponse<TEntity> ApplySpecification(ISpecification<TEntity> spec)
         {
             return SpecificationEvaluator<TEntity>.GetQuery(DbSet.AsQueryable(), spec);
         }
