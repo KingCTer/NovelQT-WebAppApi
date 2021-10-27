@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/drawable/fa_light_bell_18dp.xml" value="0.3277777777777778" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/drawable/splash_screen_background_night.xml" value="0.3277777777777778" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_chapter_content.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_main.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_on_boarding.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/activity_on_boarding_first_screen_fragment.xml" value="0.28306159420289856" />
@@ -14,6 +15,7 @@
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_book_detail.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_book_list.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_bookcase.xml" value="0.28306159420289856" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_chapter_content.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_chapter_list.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_library.xml" value="0.33" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/fragment_on_boarding_first_screen.xml" value="0.28306159420289856" />
@@ -26,6 +28,7 @@
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/layout/pager_slider_item.xml" value="0.28306159420289856" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/book_detail_menu.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/bottom_nav_menu.xml" value="0.34479166666666666" />
+        <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/chapter_content_menu.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/chapter_list_menu.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/menu/library_menu.xml" value="0.34479166666666666" />
         <entry key="..\:/SourceCode/NovelQT-WebAppApi/App/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3277777777777778" />

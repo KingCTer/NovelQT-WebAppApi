@@ -50,7 +50,7 @@ class ChapterRepository @Inject constructor(private val service: ChapterService)
         })
     }
 
-    fun getChapterByOrder(bookId: String, order: Int, getBook: (result: DataChapter) -> Unit) {
+    fun getChapterByOrder(bookId: String, order: Int, getBook: (result: DataChapter?) -> Unit) {
 
         service.getChapterByOrder(bookId, order).enqueue(object : Callback<ChapterResponse> {
             override fun onResponse(
@@ -58,7 +58,7 @@ class ChapterRepository @Inject constructor(private val service: ChapterService)
                 response: Response<ChapterResponse>
             ) {
                 if (response.isSuccessful) {
-                    getBook.invoke(response.body()!!.data)
+                    getBook.invoke(response.body()?.data)
                 }
             }
 

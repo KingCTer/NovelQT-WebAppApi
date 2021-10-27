@@ -18,16 +18,12 @@
             android:id="@+id/action_navigation_library_to_bookListFragment"
             app:destination="@id/bookListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
         <action
-            android:id="@+id/action_navigation_library_to_bookDetailFragment"
+            android:id="@+id/action_navigation_book_card_to_bookDetailFragment"
             app:destination="@id/bookDetailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
@@ -59,18 +55,16 @@
             android:defaultValue="Danh sách"
             app:argType="string" />
         <action
-            android:id="@+id/action_bookListFragment_to_bookDetailFragment"
+            android:id="@+id/action_navigation_book_card_to_bookDetailFragment"
             app:destination="@id/bookDetailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.ctosnetwork.qtreader.ui.book.BookDetailFragment"
         android:label="fragment_book_detail"
-        tools:layout="@layout/fragment_book_detail" >
+        tools:layout="@layout/fragment_book_detail">
         <argument
             android:name="bookId"
             app:argType="string" />
@@ -78,17 +72,59 @@
             android:id="@+id/action_bookDetailFragment_to_chapterListFragment"
             app:destination="@id/chapterListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popEnterAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_book_card_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+        <action
+            android:id="@+id/action_bookDetailFragment_to_chapterContentFragment"
+            app:destination="@id/chapterContentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
     <fragment
         android:id="@+id/chapterListFragment"
         android:name="com.ctosnetwork.qtreader.ui.chapter.ChapterListFragment"
         android:label="fragment_chapter_list"
-        tools:layout="@layout/fragment_chapter_list" >
+        tools:layout="@layout/fragment_chapter_list">
         <argument
             android:name="bookId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_chapterListFragment_to_chapterContentFragment"
+            app:destination="@id/chapterContentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chapterContentFragment"
+        android:name="com.ctosnetwork.qtreader.ui.chapter.ChapterContentFragment"
+        android:label="fragment_chapter_content"
+        tools:layout="@layout/fragment_chapter_content" >
+        <argument
+            android:name="chapterId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="bookId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="order"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_chapterContentFragment_self"
+            app:destination="@id/chapterContentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popUpTo="@id/bookDetailFragment" />
+        <action
+            android:id="@+id/action_chapterContentFragment_to_chapterListFragment"
+            app:destination="@id/chapterListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
 </navigation>

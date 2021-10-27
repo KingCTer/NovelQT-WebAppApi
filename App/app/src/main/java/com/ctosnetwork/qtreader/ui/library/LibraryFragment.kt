@@ -21,6 +21,7 @@ import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.adapters.ImageSliderAdapter
 import com.ctosnetwork.qtreader.data.ImageSlider
 import com.ctosnetwork.qtreader.databinding.FragmentLibraryBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -57,6 +58,17 @@ class LibraryFragment : Fragment() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.transparent)
+
+        try {
+            val navView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            if (navView.visibility == View.GONE){
+                navView.visibility = View.VISIBLE
+            }
+        } catch (e: Exception) {
+            // handler
+        }
+
+
 
         initialImageSlider(binding.viewPagerImageSlider)
         newlyJob = initialBook(binding.recyclerViewNewly, newlyAdapter, newlyJob, QUERY_BOOK_NEWLY)

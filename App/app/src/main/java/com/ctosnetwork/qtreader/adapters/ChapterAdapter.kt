@@ -6,12 +6,15 @@
 package com.ctosnetwork.qtreader.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ctosnetwork.qtreader.api.data.DataChapter
 import com.ctosnetwork.qtreader.databinding.ItemChapterHorizontalCardListBinding
+import com.ctosnetwork.qtreader.ui.chapter.ChapterListFragmentDirections
 
 class ChapterAdapter(private val viewType: Int) :
     PagingDataAdapter<DataChapter, RecyclerView.ViewHolder>(DataChapterDiffCallback()) {
@@ -29,7 +32,9 @@ class ChapterAdapter(private val viewType: Int) :
 
         if (chapter != null) {
             when (holder.itemViewType) {
-                VIEW_TYPE_HORIZONTAL_CARD_LIST -> (holder as ChapterHorizontalListViewHolder).bind(chapter)
+                VIEW_TYPE_HORIZONTAL_CARD_LIST -> (holder as ChapterHorizontalListViewHolder).bind(
+                    chapter
+                )
                 else -> (holder as ChapterHorizontalListViewHolder).bind(chapter)
             }
         }
@@ -38,11 +43,15 @@ class ChapterAdapter(private val viewType: Int) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_HORIZONTAL_CARD_LIST -> {
-                ChapterHorizontalListViewHolder(ItemChapterHorizontalCardListBinding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                ChapterHorizontalListViewHolder(
+                    ItemChapterHorizontalCardListBinding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                )
             }
-            else -> ChapterHorizontalListViewHolder(ItemChapterHorizontalCardListBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false))
+            else -> ChapterHorizontalListViewHolder(
+                ItemChapterHorizontalCardListBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+            )
         }
     }
 
@@ -52,16 +61,21 @@ class ChapterAdapter(private val viewType: Int) :
         init {
             binding.setClickListener { view ->
                 binding.chapter?.let { chapter ->
-                    //navigateToBookDetail(chapter, view)
+                    navigateToChapterContent(chapter, view)
                 }
             }
         }
 
-        //private fun navigateToBookDetail(book: DataChapter, view: View) {
-        //    val direction =
-        //        BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(book.id)
-        //    view.findNavController().navigate(direction)
-        //}
+        private fun navigateToChapterContent(chapter: DataChapter, view: View) {
+            val direction =
+                ChapterListFragmentDirections
+                    .actionChapterListFragmentToChapterContentFragment(
+                        chapterId = chapter.id,
+                        bookId = chapter.bookId,
+                        order = chapter.order
+                    )
+            view.findNavController().navigate(direction)
+        }
 
         fun bind(item: DataChapter) {
             binding.apply {

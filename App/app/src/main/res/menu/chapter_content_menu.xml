@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 ctOS-Network. All rights reserved.
+  ~ Created by KingCTer on 21:41, 27/10/2021
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/chapter_content_menu_next_chapter"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_skip_next_24dp"
+        android:title="Next Chapter"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/chapter_content_menu_list_chapter"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_list_alt_24dp"
+        android:title="List Chapter"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/chapter_content_menu_setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_settings_24dp"
+        android:title="Setting"
+        app:showAsAction="ifRoom" />
+
+</menu>

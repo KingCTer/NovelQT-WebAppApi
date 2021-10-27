@@ -8,8 +8,7 @@ package com.ctosnetwork.qtreader.ui.book
 import android.os.Bundle
 import android.text.Html
 import android.view.*
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +28,7 @@ import com.ctosnetwork.qtreader.api.service.ChapterService
 import com.ctosnetwork.qtreader.databinding.FragmentBookDetailBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.Job
@@ -53,6 +53,15 @@ class BookDetailFragment : Fragment() {
         //val binding = DataBindingUtil.inflate<FragmentBookDetailBinding>(inflater, R.layout.fragment_book_detail, container,false)
         binding = FragmentBookDetailBinding.inflate(inflater, container, false)
         context ?: return binding.root
+
+        try {
+            val navView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            if (navView.visibility == View.VISIBLE){
+                navView.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            // handler
+        }
 
         val window: Window = requireActivity().window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -99,6 +108,12 @@ class BookDetailFragment : Fragment() {
             binding.setClickChapterListListener { view ->
                 val direction =
                     BookDetailFragmentDirections.actionBookDetailFragmentToChapterListFragment(book.id)
+                view.findNavController().navigate(direction)
+            }
+
+            binding.setClickFirstChapterListener { view ->
+                val direction =
+                    BookDetailFragmentDirections.actionBookDetailFragmentToChapterContentFragment(bookId = book.id, order = 1, chapterId = "")
                 view.findNavController().navigate(direction)
             }
         }

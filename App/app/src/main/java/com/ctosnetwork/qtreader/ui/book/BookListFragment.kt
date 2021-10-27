@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.databinding.FragmentBookListBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest

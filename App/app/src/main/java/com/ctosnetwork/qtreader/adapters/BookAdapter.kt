@@ -107,7 +107,7 @@ class BookAdapter(private val viewType: Int) :
 
         private fun navigateToBookDetail(book: DataBook, view: View) {
             val direction =
-                LibraryFragmentDirections.actionNavigationLibraryToBookDetailFragment(book.id)
+                LibraryFragmentDirections.actionNavigationBookCardToBookDetailFragment(book.id)
             view.findNavController().navigate(direction)
         }
 
@@ -138,7 +138,7 @@ class BookAdapter(private val viewType: Int) :
 
         private fun navigateToBookDetail(book: DataBook, view: View) {
             val direction =
-                LibraryFragmentDirections.actionNavigationLibraryToBookDetailFragment(book.id)
+                LibraryFragmentDirections.actionNavigationBookCardToBookDetailFragment(book.id)
             view.findNavController().navigate(direction)
         }
 
@@ -172,7 +172,7 @@ class BookAdapter(private val viewType: Int) :
 
         private fun navigateToBookDetail(book: DataBook, view: View) {
             val direction =
-                BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(book.id)
+                BookListFragmentDirections.actionNavigationBookCardToBookDetailFragment(book.id)
             view.findNavController().navigate(direction)
         }
 

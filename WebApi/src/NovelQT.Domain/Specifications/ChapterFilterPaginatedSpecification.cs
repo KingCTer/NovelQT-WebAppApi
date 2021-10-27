@@ -76,6 +76,23 @@ namespace NovelQT.Domain.Specifications
                         }
                         continue;
                     }
+                    var whereSmaller = item.Split("<");
+                    if (whereSmaller.Length == 2)
+                    {
+                        switch (whereSmaller[0])
+                        {
+                            case "where:order":
+                                int order;
+                                if (Int32.TryParse(whereSmaller[1], out order))
+                                {
+                                    AddWhere(x => x.Order <= order);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        continue;
+                    }
                     continue;
 
                 }

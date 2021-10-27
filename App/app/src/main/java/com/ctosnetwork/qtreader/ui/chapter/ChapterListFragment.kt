@@ -24,6 +24,7 @@ import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.adapters.ChapterAdapter
 import com.ctosnetwork.qtreader.databinding.FragmentChapterListBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -44,6 +45,14 @@ class ChapterListFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentChapterListBinding>(inflater, R.layout.fragment_chapter_list, container, false)
 
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.primaryColor)
+        try {
+            val navView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            if (navView.visibility == View.VISIBLE){
+                navView.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            // handler
+        }
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -54,6 +63,21 @@ class ChapterListFragment : Fragment() {
 
         getChapterListJob = initialChapterList(binding.recyclerChapterList, chapterListAdapter, getChapterListJob)
 
+        var isFab: Boolean = false
+        var currentOrderBy = "orderBy:order:asc;"
+        binding.chapterListFab.setOnClickListener {
+            if (isFab) {
+                currentOrderBy = "orderBy:order:asc;"
+                isFab = false
+            } else {
+                currentOrderBy = "orderBy:order:desc;"
+                isFab = true
+            }
+
+            chapterListAdapter.submitData(lifecycle, PagingData.empty())
+            getChapterListJob = null
+            getChapterListJob = initialChapterList(binding.recyclerChapterList, chapterListAdapter, getChapterListJob, currentOrderBy)
+        }
         // Get input text
         binding.searchChapterTextField.editText?.doOnTextChanged { inputText, _, _, _ ->
             val query = "where:order>" + inputText.toString()
@@ -69,6 +93,8 @@ class ChapterListFragment : Fragment() {
             getChapterListJob = initialChapterList(binding.recyclerChapterList, chapterListAdapter, getChapterListJob, query)
             binding.swipeChapterList.isRefreshing = false
         }
+
+
 
 
 
