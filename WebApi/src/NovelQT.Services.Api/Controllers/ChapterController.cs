@@ -61,6 +61,8 @@ namespace NovelQT.Services.Api.Controllers
             return Response(response, 1);
         }
 
+
+
         [HttpGet("list/{bookId:guid}")]
         public IActionResult GetChapterList(Guid bookId)
         {
@@ -71,9 +73,8 @@ namespace NovelQT.Services.Api.Controllers
         [HttpGet("pagination/{bookId:guid}")]
         public IActionResult GetChapterListPagination(Guid bookId, [FromQuery] PaginationFilter filter)
         {
-            var filterQuery = new PaginationFilter(filter.page_number, filter.page_size, filter.query);
-            var responses = _chapterAppService.GetChapterListByBookId(bookId, filterQuery.page_number, filterQuery.page_size, filterQuery.query);
-            return PagedResponse(responses.ViewModel, responses.TotalRecords, filterQuery);
+            var responses = _chapterAppService.GetChapterListByBookId(bookId, (filter.PageNumber - 1) * filter.PageSize, filter.PageSize, filter.Query);
+            return PagedResponse(responses.ViewModel, responses.TotalRecords, filter);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +9,30 @@ namespace NovelQT.Application.Query
 {
     public class PaginationFilter
     {
-        public int page_number { get; set; }
-        public int page_size { get; set; }
-        public string query { get; set; }
+        private int _pageNumber = 1;
+        private int _pageSize = 10;
+        private string _query = "";
 
-        public PaginationFilter()
+        [FromQuery(Name = "page_number")]
+        public int PageNumber
         {
-            this.page_number = 0;
-            this.page_size = 10;
-            this.query = "";
+            get { return _pageNumber; }
+            set { _pageNumber = value < 1 ? 1 : value; }
         }
-        public PaginationFilter(int page_number, int page_size, string query = "")
+
+        [FromQuery(Name = "page_size")]
+        public int PageSize
         {
-            this.page_number = page_number < 1 ? 0 : page_number - 1;
-            if (page_size < 1 || page_size > 200)
-            {
-                this.page_size = 10;
-            }
-            else this.page_size = page_size;
-            this.query = query;
+            get { return _pageSize; }
+            set { _pageSize = (value < 0 || value > 200) ? 10 : value;}
         }
+
+        [FromQuery(Name = "query")]
+        public string Query
+        {
+            get { return _query; }
+            set { _query = value; }
+        }
+
     }
 }

@@ -12,6 +12,13 @@ namespace NovelQT.Application.Responses
         {
         }
 
+        public BookResponse(Guid id, string name, string authorName)
+        {
+            Id = id;
+            Name = name;
+            AuthorName = authorName;
+        }
+
         public BookResponse(Guid id,
                             string name,
                             string key,
@@ -36,6 +43,18 @@ namespace NovelQT.Application.Responses
             CategoryName = categoryName;
             ChapterTotal = chapterTotal;
             Intro = intro;
+        }
+
+        public BookResponse(Guid id,
+                            string name,
+                            string cover,
+                            string status
+            )
+        {
+            Id = id;
+            Name = name;
+            Cover = cover;
+            Status = status;
         }
 
         public Guid Id { get; set; }

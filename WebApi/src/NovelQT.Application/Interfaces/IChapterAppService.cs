@@ -14,6 +14,6 @@ namespace NovelQT.Application.Interfaces
         public ChapterResponse GetChapterByBookIdAndOrder(Guid bookId, int order);
         public ChapterResponse GetLastChapterByBookId(Guid bookId);
         public IEnumerable<ChapterResponse> GetChapterListByBookId(Guid bookId);
-        public RepositoryResponses<ChapterResponse> GetChapterListByBookId(Guid bookId, int skip, int take, string query);
+        public RepositoryResponse<ChapterResponse> GetChapterListByBookId(Guid bookId, int skip, int take, string query);
     }
 }

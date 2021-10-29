@@ -165,7 +165,7 @@ namespace NovelQT.Application.Services
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -186,13 +186,13 @@ namespace NovelQT.Application.Services
             return _bookRepository.GetAll().ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
         }
 
-        public RepositoryResponses<BookResponse> GetAll(int skip, int take, string query)
+        public RepositoryResponse<BookResponse> GetAll(int skip, int take, string query)
         {
-            var response = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip*take, take, query));
+            var response = _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take, query));
 
             var books = response.Queryable.ProjectTo<BookResponse>(_mapper.ConfigurationProvider);
             
-            return new RepositoryResponses<BookResponse>(books, response.TotalRecords);
+            return new RepositoryResponse<BookResponse>(books, response.TotalRecords);
             //return _bookRepository.GetAll(new BookFilterPaginatedSpecification(skip, take))
             //    .ProjectTo<BookViewModel>(_mapper.ConfigurationProvider);
         }

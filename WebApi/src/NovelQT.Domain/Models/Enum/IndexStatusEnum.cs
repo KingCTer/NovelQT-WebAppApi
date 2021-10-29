@@ -23,13 +23,33 @@
         Indexed = 3,
 
         /// <summary>
+        /// The document has been indexed.
+        /// </summary>
+        IndexedInCloud = 4,
+
+        /// <summary>
+        /// The document has been indexed.
+        /// </summary>
+        IndexedInDocker = 5,
+
+        /// <summary>
         /// The document indexing has failed due to an error.
         /// </summary>
-        Failed = 4,
+        Failed = 6,
 
         /// <summary>
         /// The document has been removed from the index.
         /// </summary>
-        Deleted = 5
+        Deleted = 7,
+
+        /// <summary>
+        /// The document has been removed from the index.
+        /// </summary>
+        DeletedInCloud = 8,
+
+        /// <summary>
+        /// The document has been removed from the index.
+        /// </summary>
+        DeletedInDocker = 9
     }
 }

@@ -22,6 +22,14 @@ namespace NovelQT.Application.Responses
             Content = content;
         }
 
+        public ChapterResponse(Guid id, Guid bookId, int order, string name)
+        {
+            Id = id;
+            BookId = bookId;
+            Order = order;
+            Name = name;
+        }
+
         public Guid Id { get; set; }
 
         public Guid BookId { get; set; }

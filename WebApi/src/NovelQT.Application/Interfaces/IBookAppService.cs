@@ -13,6 +13,6 @@ namespace NovelQT.Application.Interfaces
         public void Crawl(string url);
         public BookResponse GetById(Guid id);
         public IEnumerable<BookResponse> GetAll();
-        public RepositoryResponses<BookResponse> GetAll(int skip, int take, string query);
+        public RepositoryResponse<BookResponse> GetAll(int skip, int take, string query);
     }
 }

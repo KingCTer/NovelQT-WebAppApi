@@ -68,12 +68,12 @@ namespace NovelQT.Application.Services
             return _chapterRepository.GetChapterListByBookId(bookId).ProjectTo<ChapterResponse>(_mapper.ConfigurationProvider);
         }
 
-        public RepositoryResponses<ChapterResponse> GetChapterListByBookId(Guid bookId, int skip, int take, string query)
+        public RepositoryResponse<ChapterResponse> GetChapterListByBookId(Guid bookId, int skip, int take, string query)
         {
-            var response = _chapterRepository.GetPagination(new ChapterFilterPaginatedSpecification(bookId, skip*take, take, query));
+            var response = _chapterRepository.GetPagination(new ChapterFilterPaginatedSpecification(bookId, skip, take, query));
             var bookResponses = response.Queryable.ProjectTo<ChapterResponse>(_mapper.ConfigurationProvider);
 
-            return new RepositoryResponses<ChapterResponse>(bookResponses, response.TotalRecords);
+            return new RepositoryResponse<ChapterResponse>(bookResponses, response.TotalRecords);
         }
 
         public ChapterResponse GetLastChapterByBookId(Guid bookId)

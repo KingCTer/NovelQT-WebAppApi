@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Nest;
 using NovelQT.Application.Elasticsearch;
 
@@ -9,27 +10,75 @@ namespace NovelQT.Application.Elasticsearch.Hosting
     {
         private readonly ElasticsearchClient elasticsearchClient;
         private readonly ILogger<ElasticsearchInitializerHostedService> logger;
+        private readonly ElasticsearchOptions elasticsearchOptions;
 
         public ElasticsearchInitializerHostedService(
             ILogger<ElasticsearchInitializerHostedService> logger, 
-            ElasticsearchClient elasticsearchClient)
+            ElasticsearchClient elasticsearchClient,
+            IOptions<ElasticsearchOptions> options
+            )
         {
             this.logger = logger;
             this.elasticsearchClient = elasticsearchClient;
+            this.elasticsearchOptions = options.Value;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            // Now we can wait for the Shards to boot up
-            var healthTimeout = TimeSpan.FromSeconds(50);
-
-            if (logger.IsDebugEnabled())
+            if (!elasticsearchOptions.IsUseElasticsearch)
             {
-                logger.LogDebug($"Waiting for at least 1 Node and at least 1 Active Shard, with a Timeout of {healthTimeout.TotalSeconds} seconds.");
+                if (logger.IsDebugEnabled())
+                {
+                    logger.LogDebug($"Elasticsearch is disable.");
+                }
+                return;
             }
 
-            ClusterHealthResponse healthResponse = await elasticsearchClient.WaitForClusterAsync(healthTimeout, cancellationToken);
-            if (healthResponse.ApiCall.Success == false) return;
+            // Now we can wait for the Shards to boot up
+            var healthTimeout = TimeSpan.FromSeconds(50);
+            if (logger.IsDebugEnabled())
+            {
+                logger.LogDebug($"Elasticsearch is enable, Elastic Cloud is {elasticsearchOptions.IsUseCloud}");
+                logger.LogDebug($"Check health with Timeout of {healthTimeout.TotalSeconds} seconds...");
+            }
+
+            if (elasticsearchOptions.IsUseCloud)
+            {
+                ClusterHealthResponse healthResponse = await elasticsearchClient.WaitForClusterHealthAsync(healthTimeout, cancellationToken);
+                if (logger.IsDebugEnabled())
+                {
+                    if (healthResponse.ApiCall.Success)
+                    {
+                        logger.LogDebug($"Connecting to Elastic Cloud is Success: {healthResponse.Status}");
+                    }
+                    else
+                    {
+                        logger.LogDebug($"Connecting to Elastic Cloud is failure: {healthResponse.DebugInformation}");
+                        return;
+                    }
+
+                }
+                if (healthResponse.ApiCall.Success == false) return;
+                
+            } else
+            {
+                ClusterHealthResponse healthResponse = await elasticsearchClient.WaitForClusterAsync(healthTimeout, cancellationToken);
+                if (logger.IsDebugEnabled())
+                {
+                    if (healthResponse.ApiCall.Success)
+                    {
+                        logger.LogDebug($"Connecting to Elasticsearch Docker is Success: {healthResponse.Status}");
+                    }
+                    else
+                    {
+                        logger.LogDebug($"Connecting to Elasticsearch Docker is failure: {healthResponse.DebugInformation}");
+                        return;
+                    }
+
+                }
+                if (healthResponse.ApiCall.Success == false) return;
+            }
+
 
             // Prepare Elasticsearch Database:
             var indexExistsResponse = await elasticsearchClient.ExistsBookAsync(cancellationToken);

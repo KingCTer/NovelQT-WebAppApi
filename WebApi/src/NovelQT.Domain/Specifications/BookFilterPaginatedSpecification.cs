@@ -56,6 +56,18 @@ namespace NovelQT.Domain.Specifications
                                 break;
                         }
                     }
+                    var whereDiff = item.Split("!");
+                    if (whereDiff.Length == 2)
+                    {
+                        switch (whereDiff[0])
+                        {
+                            case "where:name":
+                                AddWhere(x => x.Name != whereDiff[1]);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     continue;
 
                 }

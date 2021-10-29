@@ -59,9 +59,8 @@ namespace NovelQT.Services.Api.Controllers
         [HttpGet("pagination")]
         public IActionResult Paginationt([FromQuery] PaginationFilter filter)
         {
-            var filterQuery = new PaginationFilter(filter.page_number, filter.page_size, filter.query);
-            var booksResponses = _bookAppService.GetAll(filterQuery.page_number, filterQuery.page_size, filterQuery.query);
-            return PagedResponse(booksResponses.ViewModel, booksResponses.TotalRecords, filterQuery);
+            var booksResponses = _bookAppService.GetAll((filter.PageNumber-1)* filter.PageSize, filter.PageSize, filter.Query);
+            return PagedResponse(booksResponses.ViewModel, booksResponses.TotalRecords, filter);
         }
 
     }

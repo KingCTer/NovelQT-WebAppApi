@@ -58,12 +58,12 @@ namespace NovelQT.Services.Api.Controllers.Base
                 return Ok(new
                 {
                     success = true,
-                    pageNumber = filter.page_number + 1,
-                    pageSize = filter.page_size,
-                    totalPages = Convert.ToInt32(Math.Ceiling(((double)totalRecords / (double)filter.page_size))),
+                    pageNumber = filter.PageNumber,
+                    pageSize = filter.PageSize,
+                    totalPages = Convert.ToInt32(Math.Ceiling(((double)totalRecords / (double)filter.PageSize))),
                     totalRecords,
                     data = result,
-                    message = filter.query
+                    message = filter.Query
                 });
             }
 

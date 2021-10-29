@@ -22,7 +22,7 @@ namespace NovelQT.Application.Elasticsearch
             ILogger<ElasticsearchClient> logger,
             IOptions<ElasticsearchOptions> options
             )
-            : this(logger, CreateClient(options.Value.Uri), options.Value.IndexBook, options.Value.IndexChapter)
+            : this(logger, CreateClient(options.Value), options.Value.IndexBook, options.Value.IndexChapter)
         {
 
         }
@@ -35,11 +35,20 @@ namespace NovelQT.Application.Elasticsearch
             this.client = client;
         }
 
-        private static IElasticClient CreateClient(string uriString)
+        private static IElasticClient CreateClient(ElasticsearchOptions options)
         {
-            var connectionUri = new Uri(uriString);
+            var connectionUri = new Uri(options.Uri);
             var connectionPool = new SingleNodeConnectionPool(connectionUri);
             var connectionSettings = new ConnectionSettings(connectionPool);
+
+            if (options.IsUseCloud)
+            {
+                var cloudId = options.CloudId;
+                var credentials = new BasicAuthenticationCredentials(options.CloudUsername, options.CloudPassword);
+                var pool = new CloudConnectionPool(cloudId, credentials);
+
+                return new ElasticClient(new ConnectionSettings(pool).UnsafeDisableTls13());
+            }
 
             return new ElasticClient(connectionSettings);
         }
@@ -50,7 +59,7 @@ namespace NovelQT.Application.Elasticsearch
 
             if (logger.IsDebugEnabled())
             {
-                logger.LogDebug($"ExistsResponse DebugInformation: {indexExistsResponse.DebugInformation}");
+                logger.LogDebug($"Exists Book: {indexExistsResponse.Exists}");
             }
 
             return indexExistsResponse;
@@ -62,7 +71,7 @@ namespace NovelQT.Application.Elasticsearch
 
             if (logger.IsDebugEnabled())
             {
-                logger.LogDebug($"ExistsResponse DebugInformation: {indexExistsResponse.DebugInformation}");
+                logger.LogDebug($"Exists Chapter: {indexExistsResponse.Exists}");
             }
 
             return indexExistsResponse;
@@ -105,7 +114,7 @@ namespace NovelQT.Application.Elasticsearch
 
             if (logger.IsDebugEnabled())
             {
-                logger.LogDebug($"CreateIndexResponse DebugInformation: {createIndexResponse.DebugInformation}");
+                logger.LogDebug($"CreateIndex Book: {createIndexResponse.ApiCall.Success}");
             }
 
             return createIndexResponse;
@@ -138,7 +147,7 @@ namespace NovelQT.Application.Elasticsearch
 
             if (logger.IsDebugEnabled())
             {
-                logger.LogDebug($"CreateIndexResponse DebugInformation: {createIndexResponse.DebugInformation}");
+                logger.LogDebug($"CreateIndex Chapter: {createIndexResponse.ApiCall.Success}");
             }
 
             return createIndexResponse;
@@ -198,10 +207,17 @@ namespace NovelQT.Application.Elasticsearch
                 .WaitForNodes("1")
                 .WaitForActiveShards("1").Timeout(timeout), ct: cancellationToken);
 
-            if (logger.IsDebugEnabled())
-            {
-                logger.LogDebug($"ClusterHealthResponse DebugInformation: {clusterHealthResponse.DebugInformation}");
-            }
+            
+
+            return clusterHealthResponse;
+        }
+
+        public async Task<ClusterHealthResponse> WaitForClusterHealthAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            var clusterHealthResponse = await client.Cluster.HealthAsync(selector: cluster =>
+                cluster.Timeout(timeout), ct: cancellationToken);
+
+            
 
             return clusterHealthResponse;
         }
@@ -257,10 +273,10 @@ namespace NovelQT.Application.Elasticsearch
                 .Index(indexBook)
                 , cancellationToken);
 
-            if (logger.IsDebugEnabled())
-            {
-                logger.LogDebug($"IndexResponse DebugInformation: {indexResponse.DebugInformation}");
-            }
+            //if (logger.IsDebugEnabled())
+            //{
+            //    logger.LogDebug($"IndexResponse DebugInformation: {indexResponse.IsValid}");
+            //}
 
             return indexResponse;
         }
@@ -274,17 +290,20 @@ namespace NovelQT.Application.Elasticsearch
 
             if (logger.IsDebugEnabled())
             {
-                logger.LogDebug($"IndexResponse DebugInformation: {indexResponse.DebugInformation}");
+                logger.LogDebug($"IndexResponse DebugInformation: {indexResponse.IsValid}");
             }
 
             return indexResponse;
         }
 
-        public Task<ISearchResponse<ElasticsearchBook>> SearchBookAsync(string query, CancellationToken cancellationToken)
+        public Task<ISearchResponse<ElasticsearchBook>> SearchBookAsync(string query, int skip, int take, CancellationToken cancellationToken)
         {
             return client.SearchAsync<ElasticsearchBook>(document => document
                 // Query this Index:
                 .Index(indexBook)
+                // Paginate
+                .From(skip)
+                .Size(take)
                 // Highlight Text Content:
                 .Highlight(highlight => highlight
                     .Fields(
@@ -294,7 +313,7 @@ namespace NovelQT.Application.Elasticsearch
                             .PostTags("</strong>")
                             .FragmentSize(150)
                             .NoMatchSize(150)
-                            .NumberOfFragments(5)
+                            .NumberOfFragments(1)
                             .Field(x => x.Name),
                         fields => fields
                             .Fragmenter(HighlighterFragmenter.Span)
@@ -302,7 +321,7 @@ namespace NovelQT.Application.Elasticsearch
                             .PostTags("</strong>")
                             .FragmentSize(150)
                             .NoMatchSize(150)
-                            .NumberOfFragments(5)
+                            .NumberOfFragments(1)
                             .Field(x => x.Author))
                     )
                 // Now kick off the query:
@@ -311,41 +330,46 @@ namespace NovelQT.Application.Elasticsearch
                     .Type(TextQueryType.BestFields)
                     .Fields(f => f
                         .Field(d => d.Name)
-                        .Field(d => d.Author)))), cancellationToken);
+                        .Field(d => d.Author)
+                        )
+                    )
+                ), cancellationToken);
         }
 
-        public Task<ISearchResponse<ElasticsearchChapter>> SearchChapterAsync(string query, CancellationToken cancellationToken)
+        public Task<ISearchResponse<ElasticsearchChapter>> SearchChapterAsync(string query, int skip, int take, CancellationToken cancellationToken)
         {
             return client.SearchAsync<ElasticsearchChapter>(document => document
                 // Query this Index:
                 .Index(indexChapter)
+                // Paginate
+                .From(skip)
+                .Size(take)
                 // Highlight Text Content:
                 .Highlight(highlight => highlight
-                    .Fields(
-                        fields => fields
-                            .Fragmenter(HighlighterFragmenter.Span)
-                            .PreTags("<strong>")
-                            .PostTags("</strong>")
-                            .FragmentSize(150)
-                            .NoMatchSize(150)
-                            .NumberOfFragments(1)
-                            .Field(x => x.Name),
-                        fields => fields
-                            .Fragmenter(HighlighterFragmenter.Span)
-                            .PreTags("<strong>")
-                            .PostTags("</strong>")
-                            .FragmentSize(150)
-                            .NoMatchSize(150)
-                            .NumberOfFragments(1)
-                            .Field(x => x.Content))
+                    .Fields(fields => fields
+                        .Fragmenter(HighlighterFragmenter.Span)
+                        .PreTags("<strong>")
+                        .PostTags("</strong>")
+                        .FragmentSize(150)
+                        .NoMatchSize(150)
+                        .NumberOfFragments(1)
+                        .Field(x => x.Content)
                     )
+                )
                 // Now kick off the query:
-                .Query(q => q.MultiMatch(mm => mm
+                .Query(q => q.MatchPhrase(m => m
                     .Query(query)
-                    .Type(TextQueryType.BestFields)
-                    .Fields(f => f
-                        .Field(d => d.Content)
-                        .Field(d => d.Name)))), cancellationToken);
+                    .Field(d => d.Content)
+                    .Slop(3)
+                    )
+                ), cancellationToken);
+
+                //.Query(q => q.MultiMatch(mm => mm
+                //    .Query(query)
+                //    .Type(TextQueryType.Phrase)
+                //    .Fields(f => f
+                //        .Field(d => d.Content)
+                //        .Field(d => d.Name)))), cancellationToken);
         }
     }
 }
