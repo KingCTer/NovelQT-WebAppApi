@@ -52,7 +52,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="false"
                 tools:context="com.ctosnetwork.novelqt.MainActivity"
-                tools:listitem="@layout/item_book_vertical_card" />
+                tools:listitem="@layout/item_book_horizontal_card_list" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

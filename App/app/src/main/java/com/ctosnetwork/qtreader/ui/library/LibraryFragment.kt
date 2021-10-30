@@ -5,7 +5,6 @@
 
 package com.ctosnetwork.qtreader.ui.library
 
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -21,6 +20,7 @@ import com.ctosnetwork.qtreader.adapters.BookAdapter
 import com.ctosnetwork.qtreader.adapters.ImageSliderAdapter
 import com.ctosnetwork.qtreader.data.ImageSlider
 import com.ctosnetwork.qtreader.databinding.FragmentLibraryBinding
+import com.ctosnetwork.qtreader.utils.Tools
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -53,27 +53,31 @@ class LibraryFragment : Fragment() {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-        //requireActivity().setTheme(R.style.Theme_Library)
-        val window: Window = requireActivity().window
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.transparent)
+        Tools.setSystemBarColor(requireActivity(), R.color.transparent)
+        Tools.showBottomNavigationView(requireActivity())
 
-        try {
-            val navView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-            if (navView.visibility == View.GONE){
-                navView.visibility = View.VISIBLE
-            }
-        } catch (e: Exception) {
-            // handler
+        binding.setClickSearchBookListener {
+            val direction =
+                LibraryFragmentDirections.actionNavigationLibraryToBookSearchFragment()
+            findNavController().navigate(direction)
         }
 
-
+        binding.setClickSearchChapterListener {
+            val direction =
+                LibraryFragmentDirections.actionNavigationLibraryToChapterSearchFragment()
+            findNavController().navigate(direction)
+        }
 
         initialImageSlider(binding.viewPagerImageSlider)
         newlyJob = initialBook(binding.recyclerViewNewly, newlyAdapter, newlyJob, QUERY_BOOK_NEWLY)
-        favoriteJob = initialBook(binding.recyclerViewFavorite, favoriteAdapter, favoriteJob, QUERY_BOOK_FAVORITE)
-        popularJob = initialBook(binding.recyclerViewPopular, popularAdapter, popularJob, QUERY_BOOK_POPULAR)
+        favoriteJob = initialBook(
+            binding.recyclerViewFavorite,
+            favoriteAdapter,
+            favoriteJob,
+            QUERY_BOOK_FAVORITE
+        )
+        popularJob =
+            initialBook(binding.recyclerViewPopular, popularAdapter, popularJob, QUERY_BOOK_POPULAR)
 
         setListClick(binding.newlyList, QUERY_BOOK_NEWLY, "Truyện mới cập nhật")
         setListClick(binding.favoriteList, QUERY_BOOK_FAVORITE, "Truyện được yêu thích")
@@ -119,21 +123,21 @@ class LibraryFragment : Fragment() {
             ImageSlider(
                 "1",
                 "https://truyen.tangthuvien.vn/images/slide7.jpg",
-                "1"
+                "6029768f-1a09-464f-8a83-55cddb46c32b"
             )
         )
         sliderImageList.add(
             ImageSlider(
                 "2",
                 "https://truyen.tangthuvien.vn/images/slide9.jpg",
-                "2"
+                "7d997271-9784-433e-a1cf-bc02161969d0"
             )
         )
         sliderImageList.add(
             ImageSlider(
                 "3",
                 "https://truyen.tangthuvien.vn/images/slide8.jpg",
-                "3"
+                "a855e969-987a-4c7a-a63b-15506b0fe8c0"
             )
         )
 

@@ -13,14 +13,50 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.ctosnetwork.qtreader.R
+import com.ctosnetwork.qtreader.ui.book.BookSearchViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object Tools {
+
+    fun hideKeyboard(activity: Activity) {
+        val view: View? = activity.currentFocus
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    /**
+     * Used in onViewCreated.
+     */
+    fun showKeyboard(activity: Activity) {
+        val viewFocus: View? = activity.currentFocus
+        if (viewFocus != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(viewFocus, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    fun showBottomNavigationView(activity: Activity, isShow: Boolean = true) {
+        try {
+            val navView = activity.findViewById<BottomNavigationView>(R.id.nav_view)
+            if (!isShow && navView.visibility == View.VISIBLE){
+                navView.visibility = View.GONE
+            }
+            if (isShow && navView.visibility == View.GONE){
+                navView.visibility = View.VISIBLE
+            }
+        } catch (e: Exception) {
+            // handler
+        }
+    }
 
     @SuppressLint("ObsoleteSdkInt")
     fun setSystemBarColor(act: Activity) {

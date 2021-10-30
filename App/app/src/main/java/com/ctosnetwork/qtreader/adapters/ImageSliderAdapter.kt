@@ -5,9 +5,10 @@
 
 package com.ctosnetwork.qtreader.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ctosnetwork.qtreader.R
 import com.ctosnetwork.qtreader.data.ImageSlider
 import com.ctosnetwork.qtreader.databinding.PagerSliderItemBinding
+import com.ctosnetwork.qtreader.ui.library.LibraryFragmentDirections
 
 class ImageSliderAdapter : ListAdapter<ImageSlider, RecyclerView.ViewHolder>(ImageSliderDiffCallback()) {
 
@@ -23,11 +25,17 @@ class ImageSliderAdapter : ListAdapter<ImageSlider, RecyclerView.ViewHolder>(Ima
         private val binding: PagerSliderItemBinding
     ) : RecyclerView.ViewHolder(binding.root){
         init {
-            binding.setClickListener {
-                Log.e("Test", "Clicked")
+            binding.setClickListener { view ->
+                binding.imageSlider?.let { book ->
+                    navigateToBookDetail(book, view)
+                }
             }
+        }
 
-
+        private fun navigateToBookDetail(book: ImageSlider, view: View) {
+            val direction =
+                LibraryFragmentDirections.actionNavigationBookCardToBookDetailFragment(book.bookId)
+            view.findNavController().navigate(direction)
         }
 
         fun bind(item: ImageSlider) {

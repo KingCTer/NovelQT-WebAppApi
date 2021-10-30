@@ -41,6 +41,15 @@ class BookListFragment : Fragment() {
 
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.primaryColor)
 
+        try {
+            val navView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            if (navView.visibility == View.VISIBLE){
+                navView.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            // handler
+        }
+
         binding.viewModel = bookListviewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

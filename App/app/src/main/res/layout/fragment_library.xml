@@ -8,6 +8,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.library.LibraryFragment">
 
+    <data>
+
+        <variable
+            name="clickSearchBookListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="clickSearchChapterListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,6 +78,7 @@
                             android:layout_marginEnd="5dp"
                             android:background="@drawable/shape_corner"
                             android:gravity="center"
+                            android:onClick="@{clickSearchBookListener}"
                             android:padding="5dp">
 
                             <ImageView
@@ -79,7 +92,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
-                                android:text="Tìm kiếm truyện..."
+                                android:text="Tìm kiếm truyện, tác giả..."
                                 android:textColor="@color/md_grey_500" />
 
                         </LinearLayout>
@@ -166,8 +179,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
+                        android:onClick="@{clickSearchChapterListener}"
                         android:fontFamily="@font/roboto"
-                        android:text="Tìm Kiếm"
+                        android:text="Tìm Chương"
                         android:textAlignment="center"
                         android:textColor="?attr/colorOnPrimary"
                         android:textSize="12sp"
@@ -342,8 +356,8 @@
                         android:clipToPadding="false"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                        app:spanCount="3"
                         app:reverseLayout="false"
+                        app:spanCount="3"
                         tools:context="com.ctosnetwork.novelqt.MainActivity"
                         tools:listitem="@layout/item_book_vertical_card" />
 

@@ -102,7 +102,7 @@ class BookDetailFragment : Fragment() {
                 .placeholder(R.drawable.qd_book_cover)
                 .into(binding.bookDetailCoverImage)
 
-            val query: String = "where:authorName=" + book.authorName
+            val query: String = "where:authorName=" + book.authorName + ";where:name!" + book.name
             getSameAuthorJob = initialBook(binding.recyclerSameAuthor, sameAuthorAdapter, getSameAuthorJob, query)
 
             binding.setClickChapterListListener { view ->

@@ -80,13 +80,8 @@ namespace NovelQT.Application.Elasticsearch.Hosting
 
             cancellationToken.Register(() => logger.LogDebug($"DocumentIndexer background task is stopping."));
 
-            while (!cancellationToken.IsCancellationRequested && elasticsearchOptions.IsLoop)
+            if (!elasticsearchOptions.IsLoop)
             {
-                if (logger.IsDebugEnabled())
-                {
-                    logger.LogDebug($"DocumentIndexer is running indexing loop.");
-                }
-
                 try
                 {
                     await IndexDocumentsAsync(cancellationToken);
@@ -95,9 +90,30 @@ namespace NovelQT.Application.Elasticsearch.Hosting
                 {
                     logger.LogError(e, "Indexing failed due to an Exception");
                 }
-
-                await Task.Delay(indexDelay, cancellationToken);
             }
+            else
+            {
+                while (!cancellationToken.IsCancellationRequested && elasticsearchOptions.IsLoop)
+                {
+                    if (logger.IsDebugEnabled())
+                    {
+                        logger.LogDebug($"DocumentIndexer is running indexing loop.");
+                    }
+
+                    try
+                    {
+                        await IndexDocumentsAsync(cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.LogError(e, "Indexing failed due to an Exception");
+                    }
+
+                    await Task.Delay(indexDelay, cancellationToken);
+                }
+            }
+
+            
 
             logger.LogDebug($"DocumentIndexer exited the Index Loop.");
         }

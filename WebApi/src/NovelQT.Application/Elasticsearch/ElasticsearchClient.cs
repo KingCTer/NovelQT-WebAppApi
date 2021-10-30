@@ -309,16 +309,16 @@ namespace NovelQT.Application.Elasticsearch
                     .Fields(
                         fields => fields
                             .Fragmenter(HighlighterFragmenter.Span)
-                            .PreTags("<strong>")
-                            .PostTags("</strong>")
+                            .PreTags("<font color='red'>")
+                            .PostTags("</font>")
                             .FragmentSize(150)
                             .NoMatchSize(150)
                             .NumberOfFragments(1)
                             .Field(x => x.Name),
                         fields => fields
                             .Fragmenter(HighlighterFragmenter.Span)
-                            .PreTags("<strong>")
-                            .PostTags("</strong>")
+                            .PreTags("<font color='red'>")
+                            .PostTags("</font>")
                             .FragmentSize(150)
                             .NoMatchSize(150)
                             .NumberOfFragments(1)
@@ -348,8 +348,8 @@ namespace NovelQT.Application.Elasticsearch
                 .Highlight(highlight => highlight
                     .Fields(fields => fields
                         .Fragmenter(HighlighterFragmenter.Span)
-                        .PreTags("<strong>")
-                        .PostTags("</strong>")
+                        .PreTags("<font color='red'>")
+                        .PostTags("</font>")
                         .FragmentSize(150)
                         .NoMatchSize(150)
                         .NumberOfFragments(1)

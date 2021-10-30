@@ -24,6 +24,16 @@
             app:destination="@id/bookDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_library_to_bookSearchFragment"
+            app:destination="@id/bookSearchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+        <action
+            android:id="@+id/action_navigation_library_to_chapterSearchFragment"
+            app:destination="@id/chapterSearchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
 
     <fragment
@@ -124,6 +134,33 @@
         <action
             android:id="@+id/action_chapterContentFragment_to_chapterListFragment"
             app:destination="@id/chapterListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/bookSearchFragment"
+        android:name="com.ctosnetwork.qtreader.ui.book.BookSearchFragment"
+        android:label="fragment_book_search"
+        tools:layout="@layout/fragment_book_search" >
+        <action
+            android:id="@+id/action_bookSearchFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chapterSearchFragment"
+        android:name="com.ctosnetwork.qtreader.ui.chapter.ChapterSearchFragment"
+        android:label="fragment_chapter_search"
+        tools:layout="@layout/fragment_chapter_search" >
+        <action
+            android:id="@+id/action_chapterSearchFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"/>
+        <action
+            android:id="@+id/action_chapterSearchFragment_to_chapterContentFragment"
+            app:destination="@id/chapterContentFragment"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
